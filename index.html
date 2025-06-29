@@ -3,16 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rituals._ - Portfolio</title>
-    <meta name="description" content="Roblox developer specializing in scripting, UI/UX, and game systems. Available for commissions and collaborations.">
-    <meta property="og:title" content="rituals._ - Roblox Developer">
-    <meta property="og:description" content="Professional Roblox developer with 4+ years experience in scripting and game development">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    
+    <title>rituals._ - Roblox Developer Portfolio</title>
+    <meta name="description" content="Professional Roblox developer specializing in scripting, UI/UX, and game systems">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
     <style>
         :root {
             --primary: #6366f1;
@@ -605,6 +599,134 @@
             transform: translateY(-2px);
         }
 
+        /* Project Modal */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 50px var(--glow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal-body {
+            display: flex;
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        .modal-media {
+            flex: 1;
+            min-height: 300px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-media img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .code-snippet {
+            width: 100%;
+            height: 100%;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            font-family: monospace;
+            overflow: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+            border-radius: 5px;
+        }
+
+        .modal-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-description {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--accent);
+        }
+
+        .modal-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-links {
@@ -639,6 +761,10 @@
 
             .pricing-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .modal-body {
+                flex-direction: column;
             }
         }
 
@@ -968,6 +1094,33 @@
         </div>
     </main>
 
+    <!-- Project Modal -->
+    <div class="project-modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Project Title</h3>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-media" id="modalMedia">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <div class="modal-details">
+                    <div class="modal-tags" id="modalTags">
+                        <!-- Tags will be populated by JavaScript -->
+                    </div>
+                    <p class="modal-description" id="modalDescription">Project description will appear here.</p>
+                    <a href="#" class="project-link" id="projectLink" target="_blank" style="display: none;">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Game
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll to Top Button -->
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
@@ -980,15 +1133,186 @@
                 title: "Advanced Inventory System",
                 category: "systems",
                 tags: ["Lua", "DataStore", "UI"],
-                description: "Complete inventory management system with drag-and-drop functionality, item stacking, and persistent storage.",
-                icon: "fas fa-boxes"
+                description: "Complete inventory management system with drag-and-drop functionality, item stacking, and persistent storage using DataStoreService. Features include item tooltips, rarity coloring, and configurable slot limits.",
+                type: "script",
+                code: `-- Inventory system example
+local Inventory = {}
+Inventory.__index = Inventory
+
+function Inventory.new(player)
+    local self = setmetatable({}, Inventory)
+    self.Player = player
+    self.Items = {}
+    self.MaxSlots = 50
+    return self
+end
+
+function Inventory:AddItem(itemId, quantity)
+    -- Add item implementation
+    for _, item in pairs(self.Items) do
+        if item.Id == itemId and item.Stackable then
+            item.Quantity += quantity
+            return true
+        end
+    end
+    
+    if #self.Items < self.MaxSlots then
+        table.insert(self.Items, {
+            Id = itemId,
+            Quantity = quantity
+        })
+        return true
+    end
+    
+    return false
+end
+
+function Inventory:RemoveItem(itemId, quantity)
+    -- Remove item implementation
+    for i, item in ipairs(self.Items) do
+        if item.Id == itemId then
+            item.Quantity -= quantity
+            if item.Quantity <= 0 then
+                table.remove(self.Items, i)
+            end
+            return true
+        end
+    end
+    return false
+end
+
+return Inventory`
             },
             {
-                title: "Advanced Inventory System",
+                title: "Fantasy RPG Game",
+                category: "games",
+                tags: ["Full Game", "RPG", "Lua", "DataStore"],
+                description: "Complete fantasy RPG with character progression, skill trees, quest system, and enemy AI. Features include day/night cycles, weather system, and procedurally generated dungeons.",
+                type: "game",
+                images: [
+                    "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
+                    "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600",
+                    "https://images.unsplash.com/photo-1505852679233-d9fd70aff56d?w=600"
+                ],
+                gameLink: "https://www.roblox.com/games/123456789/Fantasy-RPG"
+            },
+            {
+                title: "Dynamic Shop UI",
+                category: "ui",
+                tags: ["UI/UX", "Lua", "Tweening"],
+                description: "Interactive shop interface with category filtering, item previews, and purchase animations. Features smooth transitions, responsive design, and configurable layout options.",
+                type: "ui",
+                images: [
+                    "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600",
+                    "https://images.unsplash.com/photo-1633287387306-f08b4b3671c6?w=600"
+                ]
+            },
+            {
+                title: "Combat System",
                 category: "systems",
-                tags: ["Lua", "DataStore", "UI"],
-                description: "Complete inventory management system with drag-and-drop functionality, item stacking, and persistent storage.",
-                icon: "fas fa-boxes"
+                tags: ["Lua", "Combat", "Raycasting"],
+                description: "Advanced combat system featuring hit detection, damage calculation, status effects, and combo mechanics. Includes both melee and ranged combat with configurable weapons.",
+                type: "script",
+                code: `-- Combat system example
+local Combat = {}
+Combat.__index = Combat
+
+function Combat.new(character)
+    local self = setmetatable({}, Combat)
+    self.Character = character
+    self.Humanoid = character:FindFirstChild("Humanoid")
+    self.LastAttack = 0
+    self.ComboCount = 0
+    return self
+end
+
+function Combat:Attack(target)
+    local now = tick()
+    if now - self.LastAttack > 2 then
+        self.ComboCount = 0
+    end
+    
+    if now - self.LastAttack < 0.5 then
+        return  -- Attack cooldown
+    end
+    
+    self.LastAttack = now
+    self.ComboCount = (self.ComboCount % 3) + 1
+    
+    -- Calculate damage based on combo
+    local baseDamage = 10
+    local damage = baseDamage * self.ComboCount
+    
+    -- Apply damage to target
+    if target:FindFirstChild("Humanoid") then
+        target.Humanoid:TakeDamage(damage)
+    end
+    
+    -- Play attack animation based on combo count
+    self:PlayAnimation("Attack"..self.ComboCount)
+end
+
+return Combat`
+            },
+            {
+                title: "Racing Game",
+                category: "games",
+                tags: ["Full Game", "Racing", "Vehicles", "Lua"],
+                description: "High-speed racing game with customizable vehicles, multiple tracks, and leaderboards. Features include drift mechanics, nitro boosts, and vehicle damage systems.",
+                type: "game",
+                images: [
+                    "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600",
+                    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600"
+                ],
+                gameLink: "https://www.roblox.com/games/987654321/Racing-Adventure"
+            },
+            {
+                title: "Friend System",
+                category: "systems",
+                tags: ["Lua", "DataStore", "Social"],
+                description: "Complete friend management system with friend requests, online status tracking, and friend grouping. Includes privacy settings and notification system.",
+                type: "script",
+                code: `-- Friend system example
+local FriendService = {}
+FriendService.__index = FriendService
+
+function FriendService.new(player)
+    local self = setmetatable({}, FriendService)
+    self.Player = player
+    self.Friends = {}
+    self.PendingRequests = {}
+    self.Blocked = {}
+    return self
+end
+
+function FriendService:SendRequest(targetPlayer)
+    if table.find(self.Blocked, targetPlayer.UserId) then
+        return false, "Cannot send request to blocked user"
+    end
+    
+    if table.find(self.Friends, targetPlayer.UserId) then
+        return false, "Already friends"
+    end
+    
+    -- Add to pending requests
+    table.insert(self.PendingRequests, targetPlayer.UserId)
+    
+    -- Notify target player
+    targetPlayer.FriendService:ReceiveRequest(self.Player)
+    return true
+end
+
+function FriendService:AcceptRequest(requesterId)
+    local index = table.find(self.PendingRequests, requesterId)
+    if index then
+        table.remove(self.PendingRequests, index)
+        table.insert(self.Friends, requesterId)
+        return true
+    end
+    return false
+end
+
+return FriendService`
             }
         ];
 
@@ -1054,9 +1378,9 @@
         function renderProjects(projectsToRender) {
             const grid = document.getElementById('projectsGrid');
             grid.innerHTML = projectsToRender.map(project => `
-                <div class="project-card" data-category="${project.category}">
-                    <div class="project-image">
-                        <i class="${project.icon}"></i>
+                <div class="project-card" data-project='${JSON.stringify(project).replace(/'/g, "\\'")}'>
+                    <div class="project-image" style="background: linear-gradient(135deg, ${getRandomGradient()})">
+                        <i class="${getProjectIcon(project.category)}"></i>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">${project.title}</h3>
@@ -1064,10 +1388,30 @@
                             ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                         <p class="project-description">${project.description}</p>
-                        <a href="#" class="btn btn-secondary" data-page="contact">Request Similar</a>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function getProjectIcon(category) {
+            const icons = {
+                'systems': 'fas fa-cogs',
+                'scripting': 'fas fa-code',
+                'games': 'fas fa-gamepad',
+                'ui': 'fas fa-paint-brush'
+            };
+            return icons[category] || 'fas fa-code';
+        }
+
+        function getRandomGradient() {
+            const gradients = [
+                '#6366f1, #8b5cf6',
+                '#06b6d4, #0ea5e9',
+                '#ec4899, #f97316',
+                '#8b5cf6, #ec4899',
+                '#10b981, #06b6d4'
+            ];
+            return gradients[Math.floor(Math.random() * gradients.length)];
         }
 
         // Skill bar animation
@@ -1081,10 +1425,7 @@
         // Copy to clipboard
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                const event = new CustomEvent('show-notification', {
-                    detail: { message: `Copied "${text}" to clipboard!` }
-                });
-                document.dispatchEvent(event);
+                showNotification(`Copied "${text}" to clipboard!`);
             });
         }
 
@@ -1168,6 +1509,62 @@
             }, 3000);
         }
 
+        // Open project modal
+        function openProjectModal(project) {
+            const modal = document.getElementById('projectModal');
+            const title = document.getElementById('modalTitle');
+            const media = document.getElementById('modalMedia');
+            const tags = document.getElementById('modalTags');
+            const description = document.getElementById('modalDescription');
+            const link = document.getElementById('projectLink');
+            
+            // Set basic info
+            title.textContent = project.title;
+            description.textContent = project.description;
+            
+            // Set tags
+            tags.innerHTML = project.tags.map(tag => 
+                `<span class="tag">${tag}</span>`
+            ).join('');
+            
+            // Set media content
+            media.innerHTML = '';
+            if (project.type === 'game' || project.type === 'ui') {
+                // Show image carousel for games and UI
+                project.images.forEach(img => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = img;
+                    imgElement.alt = project.title;
+                    media.appendChild(imgElement);
+                });
+            } else if (project.type === 'script') {
+                // Show code snippet for scripts
+                const pre = document.createElement('pre');
+                pre.className = 'code-snippet';
+                pre.textContent = project.code;
+                media.appendChild(pre);
+            }
+            
+            // Set game link if available
+            if (project.gameLink) {
+                link.href = project.gameLink;
+                link.style.display = 'inline-flex';
+            } else {
+                link.style.display = 'none';
+            }
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close project modal
+        function closeProjectModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
         // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
             // Hide loading screen
@@ -1218,9 +1615,23 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Notification listener
-            document.addEventListener('show-notification', (e) => {
-                showNotification(e.detail.message);
+            // Add event listeners to project cards
+            document.addEventListener('click', (e) => {
+                const card = e.target.closest('.project-card');
+                if (card) {
+                    const projectData = JSON.parse(card.dataset.project);
+                    openProjectModal(projectData);
+                }
+            });
+
+            // Close modal event
+            document.getElementById('closeModal').addEventListener('click', closeProjectModal);
+            
+            // Close modal when clicking outside content
+            document.getElementById('projectModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('projectModal')) {
+                    closeProjectModal();
+                }
             });
 
             // Animate skills on load
