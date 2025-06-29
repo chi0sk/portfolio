@@ -380,15 +380,26 @@
             align-items: center;
             justify-content: center;
         }
+        
+        .project-image-rect {
+            width: 100%;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        .project-image img {
+        .project-image-rect img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
 
-        .project-card:hover .project-image img {
+        .project-card:hover .project-image-rect img {
             transform: scale(1.1);
         }
 
@@ -719,13 +730,14 @@
 
         .code-snippet {
             width: 100%;
-            height: 100%;
+            max-height: 400px;
             background: #1e1e1e;
             color: #d4d4d4;
             padding: 1rem;
             font-family: monospace;
             overflow: auto;
-            white-space: pre;
+            white-space: pre-wrap; /* Wrap long lines */
+            word-break: break-all; /* Break long words */
             font-size: 0.9rem;
             border-radius: 5px;
         }
@@ -760,6 +772,17 @@
             gap: 0.5rem;
             flex-wrap: wrap;
             margin-bottom: 1.5rem;
+        }
+
+        /* Currency Note */
+        .currency-note {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 0.5rem;
         }
 
         /* Responsive Design */
@@ -991,7 +1014,7 @@
                 <div class="pricing-grid">
                     <div class="pricing-card">
                         <h3 class="pricing-title">Quick Scripts</h3>
-                        <div class="pricing-amount">$15+</div>
+                        <div class="pricing-amount">£5 - £15</div>
                         <ul class="pricing-features">
                             <li>Simple functionality</li>
                             <li>Quick turnaround</li>
@@ -999,10 +1022,11 @@
                             <li>1 revision included</li>
                         </ul>
                         <a href="#" class="btn btn-primary" data-page="contact">Get Quote</a>
+                        <div class="currency-note">All prices in GBP</div>
                     </div>
                     <div class="pricing-card">
                         <h3 class="pricing-title">Full Systems</h3>
-                        <div class="pricing-amount">$50+</div>
+                        <div class="pricing-amount">£15 - £50</div>
                         <ul class="pricing-features">
                             <li>Complex game systems</li>
                             <li>Detailed documentation</li>
@@ -1011,10 +1035,11 @@
                             <li>Ongoing support</li>
                         </ul>
                         <a href="#" class="btn btn-primary" data-page="contact">Get Quote</a>
+                        <div class="currency-note">All prices in GBP</div>
                     </div>
                     <div class="pricing-card">
                         <h3 class="pricing-title">UI Setup</h3>
-                        <div class="pricing-amount">$30+</div>
+                        <div class="pricing-amount">£10 - £50</div>
                         <ul class="pricing-features">
                             <li>Complete UI design</li>
                             <li>Responsive layouts</li>
@@ -1023,6 +1048,20 @@
                             <li>2 revisions included</li>
                         </ul>
                         <a href="#" class="btn btn-primary" data-page="contact">Get Quote</a>
+                        <div class="currency-note">All prices in GBP</div>
+                    </div>
+                    <div class="pricing-card">
+                        <h3 class="pricing-title">Full Games</h3>
+                        <div class="pricing-amount">£100+</div>
+                        <ul class="pricing-features">
+                            <li>Complete game development</li>
+                            <li>Custom systems & mechanics</li>
+                            <li>Multiplayer integration</li>
+                            <li>UI/UX design</li>
+                            <li>Testing & deployment</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary" data-page="contact">Get Quote</a>
+                        <div class="currency-note">All prices in GBP</div>
                     </div>
                 </div>
                 
@@ -1034,6 +1073,7 @@
                         <span style="background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 20px;">✓ Competitive Rates</span>
                         <span style="background: var(--secondary); color: white; padding: 0.5rem 1rem; border-radius: 20px;">✓ Quality Guaranteed</span>
                         <span style="background: var(--accent); color: white; padding: 0.5rem 1rem; border-radius: 20px;">✓ Fast Delivery</span>
+                        <span style="background: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 20px;">✓ GBP Payments Only</span>
                     </div>
                 </div>
             </div>
@@ -1050,10 +1090,10 @@
                         <p>rituals._</p>
                         <button class="copy-btn">Copy Username</button>
                     </div>
-                    <div class="contact-method" onclick="window.open('https://www.roblox.com/users/chi0sk', '_blank')">
+                    <div class="contact-method" onclick="window.open('https://www.roblox.com/users/832848277/profile', '_blank')">
                         <i class="fas fa-gamepad"></i>
                         <h3>Roblox</h3>
-                        <p>@chi0sk</p>
+                        <p>@rituals._</p>
                         <button class="copy-btn">Visit Profile</button>
                     </div>
                 </div>
@@ -1097,6 +1137,7 @@
                     <h3>Payment & Refunds</h3>
                     <p>Payment is typically required 50% upfront for larger projects, with the remainder due upon completion. For smaller projects, payment may be required in full upfront.</p>
                     <p style="margin-top: 1rem;"><strong>Refund Policy:</strong> No refunds are provided after delivery unless there are critical bugs that prevent the code from functioning as specified. Minor adjustments and revisions are included within the agreed scope.</p>
+                    <p style="margin-top: 1rem;"><strong>Currency:</strong> All payments must be made in GBP (£).</p>
                 </div>
 
                 <div class="tos-section">
@@ -1427,9 +1468,10 @@ return FriendService`
             grid.innerHTML = projectsToRender.map(project => `
                 <div class="project-card" data-project='${JSON.stringify(project).replace(/'/g, "\\'")}'>
                     <div class="project-image">
-                        <img src="${project.image}" alt="${project.title}">
-                        <div class="image-overlay">
-                            <i class="${project.icon} project-icon"></i>
+                        <div class="project-image-rect" style="background-image: url('${project.image}')">
+                            <div class="image-overlay">
+                                <i class="${project.icon} project-icon"></i>
+                            </div>
                         </div>
                     </div>
                     <div class="project-content">
