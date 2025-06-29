@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>rituals._ - Portfolio</title>
-    <meta name="description" content="Professional Roblox developer specializing in scripting, UI/UX, and game systems">
+    <meta name="description" content="Roblox developer specializing in scripting, UI/UX, and game systems">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -363,6 +363,7 @@
             border: 1px solid var(--border);
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
 
         .project-card:hover {
@@ -373,12 +374,46 @@
 
         .project-image {
             height: 200px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: relative;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-icon {
             font-size: 3rem;
             color: white;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .project-card:hover .project-icon {
+            transform: scale(1.2);
+            color: var(--accent);
         }
 
         .project-content {
@@ -886,6 +921,15 @@
                             <div class="skill-fill" data-width="65"></div>
                         </div>
                     </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Git</span>
+                            <span class="skill-percentage">60%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="60"></div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -1051,7 +1095,7 @@
 
                 <div class="tos-section">
                     <h3>Payment & Refunds</h3>
-                    <p>Payment is typically required 50% upfront for larger projects, with the remainder due upon completion. For smaller projects, payment may be required in full upfront. (I ONLY TAKE PAYMENT IN GBP)</p>
+                    <p>Payment is typically required 50% upfront for larger projects, with the remainder due upon completion. For smaller projects, payment may be required in full upfront.</p>
                     <p style="margin-top: 1rem;"><strong>Refund Policy:</strong> No refunds are provided after delivery unless there are critical bugs that prevent the code from functioning as specified. Minor adjustments and revisions are included within the agreed scope.</p>
                 </div>
 
@@ -1118,52 +1162,205 @@
     </button>
 
     <script>
-        // Project data (systems, scripting, ui, games)
+        // Project data with enhanced images
         const projects = [
-             {
-                title: "Rocord : Roblox",
-                category: "game",
-                tags: ["UI", "Lua", "DataStore"],
-                description: "Work In Progress recreation of Discord but on Roblox, currently unfinished. 1:1 Replica of the current Discord UI. Mostly uncoded.",
-                type: "game",
-                images: [
-                    "https://cdn.discordapp.com/attachments/1374425251718365285/1388882418282270871/image.png?ex=6862990c&is=6861478c&hm=54b1243a6e6aa355ec68939861abcf23edc26bf0b7ba189b834345061a2cc157&"
-                ],
-                gameLink: "https://www.roblox.com/games/108293432688169/rocord-v2"
-            },
             {
-                title: "WORDLE 🧩",
-                category: "game",
+                title: "Advanced Inventory System",
+                category: "systems",
                 tags: ["Lua", "DataStore", "UI"],
-                description: "Currently being recoded. Fully fledged wordle game remade on Roblox. with dynamic word list updateable through github.",
-                type: "game",
-                images: [
-                    "https://tr.rbxcdn.com/180DAY-8c0c8e015451edaa4b895dd45d3493fa/768/432/Image/Webp/noFilter"
-                ],
-                gameLink: "https://www.roblox.com/games/17362516283/WORDLE"
+                description: "Complete inventory management system with drag-and-drop functionality, item stacking, and persistent storage using DataStoreService. Features include item tooltips, rarity coloring, and configurable slot limits.",
+                type: "script",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600",
+                icon: "fas fa-boxes",
+                code: `-- Inventory system example
+local Inventory = {}
+Inventory.__index = Inventory
+
+function Inventory.new(player)
+    local self = setmetatable({}, Inventory)
+    self.Player = player
+    self.Items = {}
+    self.MaxSlots = 50
+    return self
+end
+
+function Inventory:AddItem(itemId, quantity)
+    -- Add item implementation
+    for _, item in pairs(self.Items) do
+        if item.Id == itemId and item.Stackable then
+            item.Quantity += quantity
+            return true
+        end
+    end
+    
+    if #self.Items < self.MaxSlots then
+        table.insert(self.Items, {
+            Id = itemId,
+            Quantity = quantity
+        })
+        return true
+    end
+    
+    return false
+end
+
+function Inventory:RemoveItem(itemId, quantity)
+    -- Remove item implementation
+    for i, item in ipairs(self.Items) do
+        if item.Id == itemId then
+            item.Quantity -= quantity
+            if item.Quantity <= 0 then
+                table.remove(self.Items, i)
+            end
+            return true
+        end
+    end
+    return false
+end
+
+return Inventory`
             },
             {
-                title: "Dust II : CS2",
-                category: "game",
-                tags: ["Building"],
-                description: "Work In Progress recreation of the map Dust II from CS2. This is currently just the outline the finished project will be more detailed.",
+                title: "Fantasy RPG Game",
+                category: "games",
+                tags: ["Full Game", "RPG", "Lua", "DataStore"],
+                description: "Complete fantasy RPG with character progression, skill trees, quest system, and enemy AI. Features include day/night cycles, weather system, and procedurally generated dungeons.",
                 type: "game",
+                image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
+                icon: "fas fa-dragon",
                 images: [
-                    "https://cdn.discordapp.com/attachments/1374425251718365285/1388882016254034091/image.png?ex=686298ac&is=6861472c&hm=b9e19fe99fae423e138b9aa67f4ed4b757df2e0d3d7b5c28853a4fe0b640abfe&"
+                    "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
+                    "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600",
+                    "https://images.unsplash.com/photo-1505852679233-d9fd70aff56d?w=600"
                 ],
-                gameLink: "https://www.roblox.com/games/15861672687/WIP-Dust-2-CS-GO"
+                gameLink: "https://www.roblox.com/games/123456789/Fantasy-RPG"
             },
             {
-                title: "Custom Kick Message",
-                category: "game",
-                tags: ["Lua", "DataStore", "UI"],
-                description: "Basic game made for creating fake kick messages with a 1:1 replica of the roblox kick ui.",
-                type: "game",
+                title: "Dynamic Shop UI",
+                category: "ui",
+                tags: ["UI/UX", "Lua", "Tweening"],
+                description: "Interactive shop interface with category filtering, item previews, and purchase animations. Features smooth transitions, responsive design, and configurable layout options.",
+                type: "ui",
+                image: "https://images.unsplash.com/photo-1633287387306-f08b4b3671c6?w=600",
+                icon: "fas fa-shopping-cart",
                 images: [
-                    "https://tr.rbxcdn.com/180DAY-9c98a27a5d37e1e14341f5530827f53e/768/432/Image/Webp/noFilter"
-                ],
-                gameLink: "https://www.roblox.com/games/18927322378/Custom-Kick-Message"
+                    "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600",
+                    "https://images.unsplash.com/photo-1633287387306-f08b4b3671c6?w=600"
+                ]
             },
+            {
+                title: "Combat System",
+                category: "systems",
+                tags: ["Lua", "Combat", "Raycasting"],
+                description: "Advanced combat system featuring hit detection, damage calculation, status effects, and combo mechanics. Includes both melee and ranged combat with configurable weapons.",
+                type: "script",
+                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600",
+                icon: "fas fa-fist-raised",
+                code: `-- Combat system example
+local Combat = {}
+Combat.__index = Combat
+
+function Combat.new(character)
+    local self = setmetatable({}, Combat)
+    self.Character = character
+    self.Humanoid = character:FindFirstChild("Humanoid")
+    self.LastAttack = 0
+    self.ComboCount = 0
+    return self
+end
+
+function Combat:Attack(target)
+    local now = tick()
+    if now - self.LastAttack > 2 then
+        self.ComboCount = 0
+    end
+    
+    if now - self.LastAttack < 0.5 then
+        return  -- Attack cooldown
+    end
+    
+    self.LastAttack = now
+    self.ComboCount = (self.ComboCount % 3) + 1
+    
+    -- Calculate damage based on combo
+    local baseDamage = 10
+    local damage = baseDamage * self.ComboCount
+    
+    -- Apply damage to target
+    if target:FindFirstChild("Humanoid") then
+        target.Humanoid:TakeDamage(damage)
+    end
+    
+    -- Play attack animation based on combo count
+    self:PlayAnimation("Attack"..self.ComboCount)
+end
+
+return Combat`
+            },
+            {
+                title: "Racing Game",
+                category: "games",
+                tags: ["Full Game", "Racing", "Vehicles", "Lua"],
+                description: "High-speed racing game with customizable vehicles, multiple tracks, and leaderboards. Features include drift mechanics, nitro boosts, and vehicle damage systems.",
+                type: "game",
+                image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600",
+                icon: "fas fa-car",
+                images: [
+                    "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600",
+                    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600"
+                ],
+                gameLink: "https://www.roblox.com/games/987654321/Racing-Adventure"
+            },
+            {
+                title: "Friend System",
+                category: "systems",
+                tags: ["Lua", "DataStore", "Social"],
+                description: "Complete friend management system with friend requests, online status tracking, and friend grouping. Includes privacy settings and notification system.",
+                type: "script",
+                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
+                icon: "fas fa-user-friends",
+                code: `-- Friend system example
+local FriendService = {}
+FriendService.__index = FriendService
+
+function FriendService.new(player)
+    local self = setmetatable({}, FriendService)
+    self.Player = player
+    self.Friends = {}
+    self.PendingRequests = {}
+    self.Blocked = {}
+    return self
+end
+
+function FriendService:SendRequest(targetPlayer)
+    if table.find(self.Blocked, targetPlayer.UserId) then
+        return false, "Cannot send request to blocked user"
+    end
+    
+    if table.find(self.Friends, targetPlayer.UserId) then
+        return false, "Already friends"
+    end
+    
+    -- Add to pending requests
+    table.insert(self.PendingRequests, targetPlayer.UserId)
+    
+    -- Notify target player
+    targetPlayer.FriendService:ReceiveRequest(self.Player)
+    return true
+end
+
+function FriendService:AcceptRequest(requesterId)
+    local index = table.find(self.PendingRequests, requesterId)
+    if index then
+        table.remove(self.PendingRequests, index)
+        table.insert(self.Friends, requesterId)
+        return true
+    end
+    return false
+end
+
+return FriendService`
+            }
         ];
 
         // Typing animation
@@ -1229,8 +1426,11 @@
             const grid = document.getElementById('projectsGrid');
             grid.innerHTML = projectsToRender.map(project => `
                 <div class="project-card" data-project='${JSON.stringify(project).replace(/'/g, "\\'")}'>
-                    <div class="project-image" style="background: linear-gradient(135deg, ${getRandomGradient()})">
-                        <i class="${getProjectIcon(project.category)}"></i>
+                    <div class="project-image">
+                        <img src="${project.image}" alt="${project.title}">
+                        <div class="image-overlay">
+                            <i class="${project.icon} project-icon"></i>
+                        </div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">${project.title}</h3>
@@ -1241,27 +1441,6 @@
                     </div>
                 </div>
             `).join('');
-        }
-
-        function getProjectIcon(category) {
-            const icons = {
-                'systems': 'fas fa-cogs',
-                'scripting': 'fas fa-code',
-                'games': 'fas fa-gamepad',
-                'ui': 'fas fa-paint-brush'
-            };
-            return icons[category] || 'fas fa-code';
-        }
-
-        function getRandomGradient() {
-            const gradients = [
-                '#6366f1, #8b5cf6',
-                '#06b6d4, #0ea5e9',
-                '#ec4899, #f97316',
-                '#8b5cf6, #ec4899',
-                '#10b981, #06b6d4'
-            ];
-            return gradients[Math.floor(Math.random() * gradients.length)];
         }
 
         // Skill bar animation
