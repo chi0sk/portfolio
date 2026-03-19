@@ -1,1 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>chi0sk - Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --bg:      #0c0c0b;
+    --surface: #111110;
+    --border:  #222220;
+    --border2: #2a2a28;
+    --ink:     #e8e4dc;
+    --muted:   #6b6860;
+    --dim:     #3d3c38;
+    --accent:  #d4854a;
+    --accent2: #b8623a;
+    --green:   #4a9e6b;
+    --mono:    'DM Mono', monospace;
+    --serif:   'Instrument Serif', serif;
+    --body:    'Lora', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 52px;
+    transition: background 0.3s, border-color 0.3s;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav.scrolled {
+    background: rgba(12,12,11,0.92);
+    backdrop-filter: blur(16px);
+    border-color: var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-left {
+    padding: 160px 52px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-right: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(56px, 7.5vw, 104px);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .hero-name-alt {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 44px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 52px;
+    line-height: 1;
+  }
+
+  .hero-desc {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 380px;
+    line-height: 1.85;
+    margin-bottom: 48px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border2);
+    padding-bottom: 4px;
+    transition: color 0.2s, border-color 0.2s;
+    width: fit-content;
+  }
+
+  .hero-cta:hover { color: var(--accent); border-color: var(--accent); }
+  .hero-cta:hover .arr { transform: translateX(4px); }
+  .arr { display: inline-block; transition: transform 0.2s; }
+
+  .hero-right {
+    padding: 160px 52px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .hero-stat { padding: 28px 0; border-top: 1px solid var(--border); }
+  .hero-stat:last-child { border-bottom: 1px solid var(--border); }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .stat-value { font-family: var(--serif); font-size: 26px; color: var(--ink); }
+  .stat-sub { font-size: 12px; color: var(--dim); margin-top: 3px; font-style: italic; }
+
+  section { border-bottom: 1px solid var(--border); }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: baseline;
+    padding: 36px 52px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 32px;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3.2vw, 42px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .about-body {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr;
+    gap: 32px;
+    padding: 52px;
+  }
+
+  .about-text p { font-size: 15px; color: var(--ink); line-height: 1.85; margin-bottom: 18px; }
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .about-aside { padding-left: 32px; border-left: 1px solid var(--border); }
+
+  .aside-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 5px 11px;
+    border: 1px solid var(--border2);
+    margin: 3px 3px 3px 0;
+    color: var(--muted);
+    transition: color 0.15s, border-color 0.15s;
+    cursor: default;
+  }
+
+  .tag:hover { color: var(--ink); border-color: var(--dim); }
+
+  .project-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 220px;
+    gap: 32px;
+    padding: 44px 52px;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .project-row:last-child { border-bottom: none; }
+  .project-row:hover { background: var(--surface); }
+
+  .project-idx {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    padding-top: 5px;
+  }
+
+  .project-name {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 20px;
+    max-width: 520px;
+  }
+
+  .code-block {
+    background: #090908;
+    border: 1px solid var(--border);
+    padding: 16px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.75;
+    color: #7a7668;
+    overflow-x: auto;
+    max-width: 540px;
+  }
+
+  .cm { color: #4a4840; font-style: italic; }
+  .kw { color: #7a9fbf; }
+  .fn { color: #c8a870; }
+  .st { color: #8fa87a; }
+  .nu { color: #b8845a; }
+  .va { color: #c0b8a8; }
+
+  .project-meta { text-align: right; }
+
+  .project-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent2);
+    padding: 4px 10px;
+    margin-bottom: 12px;
+  }
+
+  .project-year { font-family: var(--mono); font-size: 10px; color: var(--muted); display: block; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .svc-spacer { background: var(--bg); }
+
+  .svc-card { background: var(--bg); padding: 44px 36px; transition: background 0.2s; }
+  .svc-card:hover { background: var(--surface); }
+
+  .svc-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+
+  .svc-name { font-family: var(--serif); font-size: 19px; color: var(--ink); margin-bottom: 14px; line-height: 1.2; }
+  .svc-desc { font-size: 12px; color: var(--muted); line-height: 1.75; }
+
+  .contact-body {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr;
+    gap: 32px;
+    padding: 52px;
+    align-items: start;
+  }
+
+  .contact-headline {
+    font-family: var(--serif);
+    font-size: clamp(30px, 4vw, 54px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+
+  .contact-headline em { font-style: italic; color: var(--muted); }
+  .contact-sub { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s;
+  }
+
+  .contact-link:first-of-type { border-top: 1px solid var(--border); }
+  .contact-link:hover { color: var(--accent); }
+
+  .cl-platform {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 9px;
+    color: var(--muted);
+    min-width: 80px;
+  }
+
+  .contact-note { padding-left: 32px; border-left: 1px solid var(--border); }
+
+  .avail {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 24px;
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2.2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  .note-text { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 20px; }
+  .note-text strong { color: var(--ink); font-weight: 600; }
+
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 52px;
+  }
+
+  .footer-l, .footer-r { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .d1 { transition-delay: 0.08s; }
+  .d2 { transition-delay: 0.16s; }
+  .d3 { transition-delay: 0.24s; }
+  .d4 { transition-delay: 0.32s; }
+
+  @media (max-width: 860px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 110px 24px 48px; border-right: none; border-bottom: 1px solid var(--border); }
+    .hero-right { padding: 40px 24px 60px; }
+    .section-header { grid-template-columns: 1fr; padding: 28px 24px 16px; gap: 8px; }
+    .about-body { grid-template-columns: 1fr; padding: 32px 24px; }
+    .about-aside { padding-left: 0; padding-top: 28px; border-left: none; border-top: 1px solid var(--border); }
+    .project-row { grid-template-columns: 1fr; padding: 32px 24px; gap: 12px; }
+    .project-meta { text-align: left; }
+    .project-idx { display: none; }
+    .services-grid { grid-template-columns: 1fr; }
+    .svc-spacer { display: none; }
+    .contact-body { grid-template-columns: 1fr; padding: 32px 24px; gap: 40px; }
+    .contact-note { padding-left: 0; padding-top: 28px; border-left: none; border-top: 1px solid var(--border); }
+    footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#"><span>chi0sk</span> / humaninput</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow reveal">Roblox Developer - General Programming</p>
+    <h1 class="hero-name reveal d1">chi0sk</h1>
+    <p class="hero-name-alt reveal d2">humaninput</p>
+    <p class="hero-desc reveal d3">I write high-level Luau modules and systems for Roblox, built to the kind of standard you would expect from production software. Clean APIs, real architecture, no shortcuts.</p>
+    <a href="#work" class="hero-cta reveal d4">View work <span class="arr">&#8594;</span></a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat reveal">
+      <p class="stat-label">Primary focus</p>
+      <p class="stat-value">Luau systems</p>
+      <p class="stat-sub">Module architecture and design</p>
+    </div>
+    <div class="hero-stat reveal d1">
+      <p class="stat-label">Scope</p>
+      <p class="stat-value">Roblox + general</p>
+      <p class="stat-sub">Open to broader projects</p>
+    </div>
+    <div class="hero-stat reveal d2">
+      <p class="stat-label">Status</p>
+      <p class="stat-value">Open for work</p>
+      <p class="stat-sub">Commissions and collaboration</p>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01 / About</span>
+    <h2 class="section-title">Who I am</h2>
+  </div>
+  <div class="about-body">
+    <div></div>
+    <div class="about-text reveal">
+      <p>I go by chi0sk and humaninput. I have been writing Luau for long enough that the gap between "it works" and "it is well built" became the only thing that interested me. Most of my output is infrastructure - the kind of modules that sit underneath a game and make everything else easier to reason about.</p>
+      <p>The modules on this page are things I built because something like them did not exist, or the existing versions were not good enough. They handle the boring but important parts: state consistency, data integrity, rate limiting, event routing, fault tolerance. You should not have to think about these problems every time you start a project.</p>
+      <p>I take commissions for custom Roblox scripting and am open to general programming work too. I do not rush things. If you want something fast and rough, I am probably not the right person. If you want something that holds up, get in touch.</p>
+    </div>
+    <div class="about-aside reveal d1">
+      <span class="aside-label">Skills</span>
+      <span class="tag">Luau</span>
+      <span class="tag">Roblox Studio</span>
+      <span class="tag">Module design</span>
+      <span class="tag">OOP</span>
+      <span class="tag">State machines</span>
+      <span class="tag">DataStores</span>
+      <span class="tag">RemoteEvents</span>
+      <span class="tag">Distributed systems</span>
+      <span class="tag">Circuit breakers</span>
+      <span class="tag">Rate limiting</span>
+      <span class="tag">Python</span>
+      <span class="tag">JavaScript</span>
+      <span class="tag">Git</span>
+
+      <span class="aside-label" style="margin-top:32px;">Approach</span>
+      <span class="tag">Clean APIs</span>
+      <span class="tag">Documented</span>
+      <span class="tag">Tested</span>
+      <span class="tag">Production-ready</span>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-header reveal">
+    <span class="section-num">02 / Work</span>
+    <h2 class="section-title">Modules</h2>
+  </div>
+
+  <div class="project-row reveal">
+    <span class="project-idx">001</span>
+    <div>
+      <h3 class="project-name">NetReplication</h3>
+      <p class="project-desc">A server-to-client state replication system built around named data containers called replicas. The server owns the data, clients subscribe by token and receive batched updates on a configurable tick rate. Handles delta compression, sequence gap detection, xxHash64 integrity verification, and automatic client-side rollback on corruption. If a client detects a gap or hash mismatch it requests a full state refresh without you having to do anything. Includes a simulation mode for testing with artificial latency, packet loss, and corruption.</p>
+      <div class="code-block"><span class="cm">-- server sets a value, clients receive it automatically</span>
+<span class="va">replica</span>:<span class="fn">Set</span>({ <span class="st">"coins"</span> }, <span class="nu">500</span>)
+
+<span class="cm">-- client reads it</span>
+<span class="fn">print</span>(<span class="va">replica</span>:<span class="fn">Get</span>({ <span class="st">"coins"</span> })) <span class="cm">-- 500</span></div>
+    </div>
+    <div class="project-meta">
+      <span class="project-badge">Roblox Module</span>
+      <span class="project-year">2025</span>
+    </div>
+  </div>
+
+  <div class="project-row reveal">
+    <span class="project-idx">002</span>
+    <div>
+      <h3 class="project-name">ChronicleStore</h3>
+      <p class="project-desc">A DataStore wrapper built around lease-based session ownership. Before loading data it acquires a distributed lease stored alongside the record. If another server holds an active lease it backs off. If the lease is expired it steals it. Saves use UpdateAsync with generation and ownership checks so stale writes are rejected at the datastore level, not just caught after the fact. Includes FNV-1a integrity hashing, exponential backoff, a circuit breaker, write coalescing, automatic lease renewal, and a simulation mode that works in Studio without API access enabled.</p>
+      <div class="code-block"><span class="cm">-- load a player's data, change it, save it</span>
+<span class="kw">local</span> <span class="va">profile</span> = <span class="va">Store</span>:<span class="fn">StartSessionAsync</span>(<span class="st">"player_123"</span>)
+<span class="va">profile</span>.<span class="va">Data</span>.<span class="va">coins</span> += <span class="nu">100</span>
+<span class="va">profile</span>:<span class="fn">Save</span>()</div>
+    </div>
+    <div class="project-meta">
+      <span class="project-badge">Roblox Module</span>
+      <span class="project-year">2025</span>
+    </div>
+  </div>
+
+  <div class="project-row reveal">
+    <span class="project-idx">003</span>
+    <div>
+      <h3 class="project-name">TaskScheduler</h3>
+      <p class="project-desc">A distributed task queue with priority scheduling, dependency graphs, exactly-once execution, and cross-server work stealing. Tasks are submitted with a name, priority, payload, retry policy, and optional dependencies. Workers register handlers by task name and pull from a priority queue. If a server is underloaded it can request tasks from overloaded servers via MessagingService. Exactly-once mode uses a DataStore distributed lock to prevent two servers running the same task concurrently. Tasks that exhaust their retry budget land in a dead letter queue with full metadata.</p>
+      <div class="code-block"><span class="cm">-- queue a job, a worker picks it up and runs it</span>
+<span class="va">scheduler</span>:<span class="fn">SubmitTask</span>({ <span class="va">Name</span> = <span class="st">"SendReward"</span>, <span class="va">Payload</span> = { <span class="va">userId</span> = <span class="nu">123</span> } })
+
+<span class="cm">-- somewhere else, a worker handles it</span>
+<span class="va">Handlers</span>.<span class="va">SendReward</span> = <span class="kw">function</span>(<span class="va">task</span>)
+  <span class="fn">giveCoins</span>(<span class="va">task</span>.<span class="va">Payload</span>.<span class="va">userId</span>)
+  <span class="kw">return true</span>
+<span class="kw">end</span></div>
+    </div>
+    <div class="project-meta">
+      <span class="project-badge">Roblox Module</span>
+      <span class="project-year">2025</span>
+    </div>
+  </div>
+
+  <div class="project-row reveal">
+    <span class="project-idx">004</span>
+    <div>
+      <h3 class="project-name">RateLimiter</h3>
+      <p class="project-desc">Four rate limiting algorithms in one module - sliding window, token bucket, fixed window, and leaky bucket. Each has a different enforcement shape and suits different use cases. The token bucket uses a g-counter CRDT so state can be safely merged across servers without coordination rounds. Distributed sync goes over MessagingService with adaptive batching and rate cap awareness. Includes per-user global ceilings, violation tracking with time-based decay, escalating penalty windows, and LRU compaction when bucket count exceeds a configured threshold.</p>
+      <div class="code-block"><span class="cm">-- allow 5 purchases per minute per player, block if exceeded</span>
+<span class="kw">local</span> <span class="va">result</span> = <span class="va">limiter</span>:<span class="fn">Check</span>(<span class="va">player</span>.<span class="va">UserId</span>, <span class="st">"purchase"</span>)
+<span class="kw">if not</span> <span class="va">result</span>.<span class="va">Allowed</span> <span class="kw">then</span>
+  <span class="kw">return</span> <span class="st">"slow down"</span>
+<span class="kw">end</span></div>
+    </div>
+    <div class="project-meta">
+      <span class="project-badge">Roblox Module</span>
+      <span class="project-year">2025</span>
+    </div>
+  </div>
+
+  <div class="project-row reveal">
+    <span class="project-idx">005</span>
+    <div>
+      <h3 class="project-name">StateMachine</h3>
+      <p class="project-desc">A hierarchical finite state machine with nested states, wildcard event routing, timed transitions, guard functions, and per-transition action lists. Events bubble from leaf to root so parent states can catch things their children do not handle. Sibling state names resolve relative to the current parent, so you can write "dead" instead of "combat.dead" inside a combat state. Snapshot and restore let you serialise the full machine into ChronicleStore and reload it later. Clean backbone for NPC behaviour, combat systems, UI flows, or anything else with distinct modes.</p>
+      <div class="code-block"><span class="cm">-- send events to move between states</span>
+<span class="va">machine</span>:<span class="fn">Send</span>(<span class="st">"AGGRO"</span>)
+<span class="fn">print</span>(<span class="va">machine</span>:<span class="fn">GetState</span>()) <span class="cm">-- "combat.alive"</span>
+
+<span class="va">machine</span>:<span class="fn">Send</span>(<span class="st">"KILLED"</span>)
+<span class="fn">print</span>(<span class="va">machine</span>:<span class="fn">GetState</span>()) <span class="cm">-- "combat.dead", auto-resets after 5s</span></div>
+    </div>
+    <div class="project-meta">
+      <span class="project-badge">Roblox Module</span>
+      <span class="project-year">2025</span>
+    </div>
+  </div>
+
+  <div class="project-row reveal">
+    <span class="project-idx">006</span>
+    <div>
+      <h3 class="project-name">CircuitBreaker</h3>
+      <p class="project-desc">Wraps any fallible operation and stops calling it when it is consistently failing. Three states - closed for normal operation, open for fast-failing without calling the wrapped function, and half-open for probing whether the dependency has recovered. Opens on a consecutive failure threshold or on a sliding window failure rate. In half-open mode a configurable number of probe calls are let through. If enough succeed it closes, if any fail it reopens immediately. Includes per-call timeouts, fallback callbacks, EventBus integration, per-key config overrides, and stale circuit eviction.</p>
+      <div class="code-block"><span class="cm">-- if the DataStore keeps failing, stop hitting it</span>
+<span class="kw">local</span> <span class="va">result</span> = <span class="va">cb</span>:<span class="fn">Execute</span>(<span class="st">"leaderboard"</span>, <span class="kw">function</span>()
+  <span class="kw">return</span> <span class="va">DataStore</span>:<span class="fn">GetAsync</span>(<span class="st">"top10"</span>)
+<span class="kw">end</span>)
+
+<span class="kw">if</span> <span class="va">result</span>.<span class="va">Ok</span> <span class="kw">then</span>
+  <span class="fn">renderBoard</span>(<span class="va">result</span>.<span class="va">Value</span>)
+<span class="kw">end</span></div>
+    </div>
+    <div class="project-meta">
+      <span class="project-badge">Roblox Module</span>
+      <span class="project-year">2025</span>
+    </div>
+  </div>
+
+  <div class="project-row reveal">
+    <span class="project-idx">007</span>
+    <div>
+      <h3 class="project-name">EventBus</h3>
+      <p class="project-desc">A publish-subscribe event system backed by a trie for efficient routing with wildcard support. Patterns support exact matches, single-segment wildcards (*), and multi-segment wildcards (**). Subscribers are ordered by priority within each trie node. Middleware runs before dispatch and can transform or block events. Namespaces let you scope event names to a prefix without a separate bus instance. Distributed mode batches events and syncs them across servers via MessagingService with rate cap awareness and exponential backoff. Unhandled events are retained in a dead letter queue.</p>
+      <div class="code-block"><span class="cm">-- listen for an event</span>
+<span class="va">bus</span>:<span class="fn">On</span>(<span class="st">"player.died"</span>, <span class="kw">function</span>(<span class="va">payload</span>)
+  <span class="fn">print</span>(<span class="va">payload</span>.<span class="va">name</span>, <span class="st">"died"</span>)
+<span class="kw">end</span>)
+
+<span class="cm">-- fire it from anywhere</span>
+<span class="va">bus</span>:<span class="fn">Emit</span>(<span class="st">"player.died"</span>, { <span class="va">name</span> = <span class="st">"sam"</span> })</div>
+    </div>
+    <div class="project-meta">
+      <span class="project-badge">Roblox Module</span>
+      <span class="project-year">2025</span>
+    </div>
+  </div>
+
+</section>
+
+<section id="services">
+  <div class="section-header reveal">
+    <span class="section-num">03 / Services</span>
+    <h2 class="section-title">What I offer</h2>
+  </div>
+  <div class="services-grid">
+    <div class="svc-spacer"></div>
+    <div class="svc-card reveal">
+      <p class="svc-num">S - 01</p>
+      <h3 class="svc-name">Custom Modules</h3>
+      <p class="svc-desc">Bespoke Luau modules built to your spec. Proper API design, documentation, and built to last inside your project rather than break the moment something changes.</p>
+    </div>
+    <div class="svc-card reveal d1">
+      <p class="svc-num">S - 02</p>
+      <h3 class="svc-name">Game Systems</h3>
+      <p class="svc-desc">Economy, combat, progression, data persistence - end-to-end scripting for complete game features. Not individual scripts, but systems that actually work together.</p>
+    </div>
+    <div class="svc-card reveal d2">
+      <p class="svc-num">S - 03</p>
+      <h3 class="svc-name">Code Review</h3>
+      <p class="svc-desc">If your codebase is fragile, slow, or hard to work with, I can audit it and tell you what the problems are and how to fix them. Honest feedback, practical output.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-num">04 / Contact</span>
+    <h2 class="section-title">Get in touch</h2>
+  </div>
+  <div class="contact-body">
+    <div></div>
+    <div class="reveal">
+      <h3 class="contact-headline">Let's build <em>something good.</em></h3>
+      <p class="contact-sub">Open to commissions, module sales, and collaboration. Find me on Discord or through Roblox directly.</p>
+      <a href="https://discord.com/users/rituals._" target="_blank" class="contact-link">
+        <span class="cl-platform">Discord</span>
+        <span>rituals._</span>
+        <span>&#8594;</span>
+      </a>
+      <a href="https://www.roblox.com/users/search?keyword=chi0sk" target="_blank" class="contact-link">
+        <span class="cl-platform">Roblox</span>
+        <span>chi0sk</span>
+        <span>&#8594;</span>
+      </a>
+      <a href="https://github.com/chi0sk" target="_blank" class="contact-link">
+        <span class="cl-platform">GitHub</span>
+        <span>chi0sk</span>
+        <span>&#8594;</span>
+      </a>
+    </div>
+    <div class="contact-note reveal d1">
+      <p class="avail"><span class="dot"></span> Available for work</p>
+      <p class="note-text">Payment in <strong>Robux</strong> for Roblox commissions. For other work, reach out and we can figure out the details from there.</p>
+      <p class="note-text">I respond within a day. I only take on work I can do properly - no rushed jobs, no copy-paste scripts. If something is worth building, it is worth building right.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="reveal">
+  <span class="footer-l">chi0sk / humaninput</span>
+  <span class="footer-r">England - 2026</span>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+  reveals.forEach(el => obs.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+  }, 80);
+</script>
+
+</body>
+</html>
