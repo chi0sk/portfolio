@@ -6,17 +6,13 @@
   <title>sam / chi0sk</title>
   <style>
     :root {
-      --bg: #090909;
-      --bg-soft: #111111;
-      --panel: #141414;
-      --panel-2: #191919;
-      --text: #f3efe6;
-      --muted: #aaa397;
-      --line: rgba(243, 239, 230, 0.1);
-      --accent: #d76a4a;
-      --accent-soft: rgba(215, 106, 74, 0.18);
-      --max: 1180px;
-      --radius: 20px;
+      --bg: #0a0a0a;
+      --bg-soft: #101010;
+      --text: #ece6dc;
+      --muted: #aaa297;
+      --line: rgba(236, 230, 220, 0.12);
+      --accent: #c86443;
+      --max: 860px;
     }
 
     * {
@@ -29,11 +25,9 @@
 
     body {
       margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(215, 106, 74, 0.1), transparent 26%),
-        linear-gradient(180deg, #0b0b0b 0%, #090909 100%);
+      background: var(--bg);
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       text-rendering: optimizeLegibility;
     }
 
@@ -43,489 +37,348 @@
     }
 
     .page {
-      width: min(calc(100% - 36px), var(--max));
+      width: min(calc(100% - 28px), var(--max));
       margin: 0 auto;
-      padding: 28px 0 72px;
+      padding: 28px 0 80px;
     }
 
-    .shell {
-      display: grid;
-      grid-template-columns: 270px minmax(0, 1fr);
-      gap: 42px;
-    }
-
-    .rail {
-      position: sticky;
-      top: 24px;
-      align-self: start;
-      padding: 24px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      backdrop-filter: blur(10px);
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
     }
 
     .name {
       margin: 0;
-      font-size: 2.2rem;
-      line-height: 0.95;
+      font-size: 1rem;
       font-weight: 700;
-      letter-spacing: -0.05em;
+      line-height: 1.4;
+      letter-spacing: 0.01em;
     }
 
-    .handle {
-      margin: 8px 0 0;
+    .sub {
+      margin: 4px 0 0;
       color: var(--muted);
-      font-size: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
       line-height: 1.6;
     }
 
-    .rail-copy {
-      margin: 22px 0 0;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 0.96rem;
-      line-height: 1.85;
-    }
-
-    .rail-block {
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-    }
-
-    .rail-label {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.8rem;
-      line-height: 1.7;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .rail-list {
-      display: grid;
-      gap: 10px;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.92rem;
-    }
-
-    .rail-list a,
-    .rail-list span {
-      color: var(--muted);
-    }
-
-    .rail-list a:hover {
+    .links a:hover {
       color: var(--text);
     }
 
-    .main {
-      min-width: 0;
-    }
-
-    .hero,
-    .section {
-      padding: 28px 0 34px;
+    .intro {
+      padding: 42px 0 34px;
       border-bottom: 1px solid var(--line);
     }
 
-    .eyebrow {
-      margin: 0 0 18px;
+    .kicker {
+      margin: 0 0 16px;
       color: var(--accent);
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.88rem;
+      font-size: 0.78rem;
       line-height: 1.7;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
     h1 {
       margin: 0;
-      max-width: 920px;
-      font-size: clamp(3rem, 7vw, 6rem);
-      line-height: 0.93;
+      max-width: 760px;
+      font-size: clamp(2.6rem, 8vw, 5rem);
+      line-height: 0.94;
       font-weight: 800;
       letter-spacing: -0.06em;
     }
 
-    .hero-copy {
-      max-width: 780px;
-      margin-top: 28px;
-      color: var(--text);
-      font-size: 1.14rem;
-      line-height: 1.95;
-    }
-
-    .hero-copy p {
-      margin: 0;
-    }
-
-    .hero-copy p + p {
-      margin-top: 16px;
+    .intro p {
+      max-width: 720px;
+      margin: 22px 0 0;
       color: var(--muted);
-    }
-
-    .section-title {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.84rem;
-      line-height: 1.7;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .section-copy {
-      max-width: 780px;
-      color: var(--muted);
-      font-size: 1.02rem;
+      font-size: 1.08rem;
       line-height: 1.9;
     }
 
-    .project-list {
-      display: grid;
-      gap: 16px;
+    .section {
+      padding: 30px 0 34px;
+      border-bottom: 1px solid var(--line);
     }
 
-    .project {
-      display: grid;
-      gap: 12px;
-      padding: 20px 22px 22px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01));
-    }
-
-    .project-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .project-title {
-      margin: 0;
-      font-size: 1.55rem;
-      line-height: 1.05;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-    }
-
-    .project-kind {
+    .label {
+      margin: 0 0 16px;
       color: var(--muted);
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.82rem;
-      line-height: 1.6;
-      letter-spacing: 0.05em;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      white-space: nowrap;
     }
 
-    .project p {
+    .section p {
+      max-width: 720px;
       margin: 0;
       color: var(--muted);
       font-size: 1rem;
-      line-height: 1.88;
+      line-height: 1.9;
     }
 
-    .project-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 2px;
+    .section p + p {
+      margin-top: 14px;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 11px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.025);
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.82rem;
-      line-height: 1;
-    }
-
-    .pill:hover {
-      border-color: rgba(243, 239, 230, 0.22);
-      background: rgba(255, 255, 255, 0.045);
-    }
-
-    .grid {
+    .list {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    .item {
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .item-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
       gap: 14px;
     }
 
-    .mini-card {
-      padding: 16px 18px 18px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--bg-soft);
-    }
-
-    .mini-card h3 {
+    .item-title {
       margin: 0;
-      font-size: 1.08rem;
+      font-size: 1.2rem;
       line-height: 1.3;
-      font-weight: 650;
+      font-weight: 700;
       letter-spacing: -0.02em;
     }
 
-    .mini-card p {
-      margin: 8px 0 0;
+    .item-meta {
       color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.75;
+      font-size: 0.84rem;
+      line-height: 1.6;
+      white-space: nowrap;
+    }
+
+    .item p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.85;
+    }
+
+    .item-links {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .item-links a:hover {
+      color: var(--text);
     }
 
     .quote {
-      max-width: 780px;
-      padding: 22px 24px;
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--accent);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.02);
+      max-width: 720px;
       color: var(--text);
-      font-size: 1.06rem;
+      font-size: 1.08rem;
       line-height: 1.9;
     }
 
     .code {
       margin-top: 18px;
-      padding: 22px 24px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
+      padding: 20px 22px;
       background: #060606;
-      color: #f3efe6;
+      border: 1px solid var(--line);
       overflow-x: auto;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.88rem;
-      line-height: 1.84;
-    }
-
-    .footer {
-      padding-top: 28px;
-    }
-
-    .footer-copy {
-      max-width: 720px;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.9;
-    }
-
-    .footer-links {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.92rem;
-    }
-
-    .footer-links a,
-    .footer-links span {
-      color: var(--muted);
-    }
-
-    .footer-links a:hover {
       color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.87rem;
+      line-height: 1.82;
     }
 
-    @media (max-width: 980px) {
-      .shell {
-        grid-template-columns: 1fr;
-      }
-
-      .rail {
-        position: static;
-      }
+    .small {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.8;
     }
 
-    @media (max-width: 760px) {
-      .page {
-        width: min(calc(100% - 24px), var(--max));
-        padding-top: 16px;
+    @media (max-width: 700px) {
+      .top {
+        flex-direction: column;
       }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .project-head {
+      .item-head {
         flex-direction: column;
         align-items: flex-start;
       }
 
-      h1 {
-        font-size: clamp(2.6rem, 14vw, 4.3rem);
-      }
-
-      .hero-copy {
-        font-size: 1.04rem;
+      .intro p,
+      .section p,
+      .quote {
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="shell">
-      <aside class="rail">
-        <p class="name">sam</p>
-        <p class="handle">@chi0sk</p>
-        <p class="rail-copy">
-          16. i write luau and c++. most of my work lands somewhere around roblox internals, tooling, systems code, and cleanup-heavy projects.
-        </p>
+    <header class="top">
+      <div>
+        <p class="name">sam / @chi0sk</p>
+        <p class="sub">16. luau and c++. roblox internals, systems code, tooling, cleanup-heavy projects.</p>
+      </div>
+      <div class="links">
+        <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
+        <a href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">roblox</a>
+        <span>discord: rituals._</span>
+      </div>
+    </header>
 
-        <div class="rail-block">
-          <p class="rail-label">links</p>
-          <div class="rail-list">
-            <a href="#work">work</a>
-            <a href="#libraries">libraries</a>
-            <a href="#sift">sift</a>
-            <a href="#contact">contact</a>
-            <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
-            <a href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">roblox</a>
-            <span>discord: rituals._</span>
+    <section class="intro">
+      <p class="kicker">luau / c++ / roblox systems</p>
+      <h1>i build tools that are supposed to stay useful once the novelty wears off.</h1>
+      <p>
+        most of my work ends up being decompilers, serializers, networking code, parsers, or internal tools. i care a lot about naming, structure, cleanup, and whether the final thing still feels solid after somebody actually uses it.
+      </p>
+      <p>
+        outside of code i am usually listening to 70s to 90s stuff, looking at old interfaces, or going back through something i already built because one part of it still feels slightly wrong.
+      </p>
+    </section>
+
+    <section class="section">
+      <p class="label">current</p>
+      <div class="list">
+        <article class="item">
+          <div class="item-head">
+            <h2 class="item-title">sift</h2>
+            <div class="item-meta">private paid tool</div>
           </div>
-        </div>
-
-        <div class="rail-block">
-          <p class="rail-label">into</p>
-          <div class="rail-list">
-            <span>70s to 90s music</span>
-            <span>old interfaces</span>
-            <span>quiet tools</span>
-            <span>parsers and recovery work</span>
-          </div>
-        </div>
-      </aside>
-
-      <div class="main">
-        <section class="hero">
-          <p class="eyebrow">luau / c++ / roblox systems / bytecode</p>
-          <h1>i build tools and systems that are supposed to hold up after the first cool screenshot.</h1>
-          <div class="hero-copy">
-            <p>
-              i'm sam. i like low level work, cleanup work, and projects where the details actually matter. most of what i build is infrastructure, recovery tooling, serialization, or internal code that makes the rest of a project less annoying to work on.
-            </p>
-            <p>
-              i care a lot about naming, structure, and whether something still feels solid once somebody actually uses it. that applies to code, interfaces, and pretty much every project i end up sticking with.
-            </p>
-          </div>
-        </section>
-
-        <section class="section" id="work">
-          <p class="section-title">selected work</p>
-          <div class="project-list">
-            <article class="project">
-              <div class="project-head">
-                <h2 class="project-title">sift</h2>
-                <div class="project-kind">private paid tool</div>
-              </div>
-              <p>
-                sift is a roblox luau bytecode decompiler i am pushing as far toward source-shaped output as i can. the goal is not just valid decompilation. it is better locals, cleaner helper recovery, stronger control flow reconstruction, and output that actually feels like something a person wrote.
-              </p>
-              <div class="project-links">
-                <span class="pill">luau</span>
-                <span class="pill">bytecode</span>
-                <span class="pill">recovery passes</span>
-                <span class="pill">not open source</span>
-              </div>
-            </article>
-
-            <article class="project">
-              <div class="project-head">
-                <h2 class="project-title">Loom</h2>
-                <div class="project-kind">public repo</div>
-              </div>
-              <p>
-                typed binary serialization for roblox, with direct remote wrappers and higher level channels for events, requests, and state sync. this is the kind of foundation work i like most because good infrastructure changes how clean the rest of a codebase feels.
-              </p>
-              <div class="project-links">
-                <a class="pill" href="https://github.com/chi0sk/Loom" target="_blank" rel="noreferrer">repo</a>
-              </div>
-            </article>
-
-            <article class="project">
-              <div class="project-head">
-                <h2 class="project-title">LuaXmlParser</h2>
-                <div class="project-kind">public repo</div>
-              </div>
-              <p>
-                an xml parser, serializer, and query library for luau. it is a good example of the kind of work i naturally drift toward: parsing, shape recovery, and making awkward data easier to work with.
-              </p>
-              <div class="project-links">
-                <a class="pill" href="https://github.com/chi0sk/LuaXmlParser" target="_blank" rel="noreferrer">repo</a>
-              </div>
-            </article>
-
-            <article class="project">
-              <div class="project-head">
-                <h2 class="project-title">NetReplication</h2>
-                <div class="project-kind">public repo</div>
-              </div>
-              <p>
-                server-authoritative state replication for roblox with delta compression, integrity checks, batching, and rate limiting. it is very much in the category of systems that need both good design and boring reliability.
-              </p>
-              <div class="project-links">
-                <a class="pill" href="https://github.com/chi0sk/NetReplication" target="_blank" rel="noreferrer">repo</a>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="libraries">
-          <p class="section-title">more libraries</p>
-          <p class="section-copy">
-            a lot of my public work is roblox-side systems code. these are a few of the other repos that fit that lane.
+          <p>
+            sift is a roblox luau bytecode decompiler i am pushing as close to source as i can get it. the point is not just readable output. it is getting back code with better locals, better helper recovery, cleaner control flow, and less of that obvious decompiler look.
           </p>
-          <div class="grid">
-            <a class="mini-card" href="https://github.com/chi0sk/EventBus" target="_blank" rel="noreferrer">
-              <h3>EventBus</h3>
-              <p>pub/sub event bus for roblox with trie routing, wildcard matching, middleware, and namespaces.</p>
-            </a>
-            <a class="mini-card" href="https://github.com/chi0sk/TaskScheduler" target="_blank" rel="noreferrer">
-              <h3>TaskScheduler</h3>
-              <p>background job scheduling for roblox with retries, dependency chains, and work stealing.</p>
-            </a>
-            <a class="mini-card" href="https://github.com/chi0sk/RateLimiter" target="_blank" rel="noreferrer">
-              <h3>RateLimiter</h3>
-              <p>distributed rate limiting for roblox with multiple algorithms and cross-server accounting.</p>
-            </a>
-            <a class="mini-card" href="https://github.com/chi0sk/ChronicleStore" target="_blank" rel="noreferrer">
-              <h3>ChronicleStore</h3>
-              <p>datastore wrapper with lease-based session locking, integrity checks, and write coalescing.</p>
-            </a>
-            <a class="mini-card" href="https://github.com/chi0sk/CircuitBreaker" target="_blank" rel="noreferrer">
-              <h3>CircuitBreaker</h3>
-              <p>per-resource fault isolation for roblox with a three-state circuit automaton and windowed failure tracking.</p>
-            </a>
-            <a class="mini-card" href="https://github.com/chi0sk/StateMachine" target="_blank" rel="noreferrer">
-              <h3>StateMachine</h3>
-              <p>hierarchical state machine for roblox with nested states, guards, timeout transitions, and snapshot restore.</p>
-            </a>
-          </div>
-        </section>
-
-        <section class="section">
-          <p class="section-title">how i think</p>
-          <div class="quote">
-            i do not really care if something looks polished for five minutes. i care if it still feels solid after somebody reads the code, hits the edge cases, and comes back to it later.
-          </div>
-        </section>
-
-        <section class="section" id="sift">
-          <p class="section-title">current slice of sift</p>
-          <p class="section-copy">
-            this is the kind of output i am trying to get back from bytecode now. not flat decompiler sludge, not fake cleaned, just something much closer to real source.
+          <p class="small">
+            this one is not going open source.
           </p>
-          <pre class="code">local activeCooldowns = {}
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="label">selected repos</p>
+      <div class="list">
+        <article class="item">
+          <div class="item-head">
+            <h2 class="item-title">Loom</h2>
+            <div class="item-meta">typed roblox serialization</div>
+          </div>
+          <p>
+            binary serialization for roblox with direct remote wrappers and higher level channels for events, requests, and state sync.
+          </p>
+          <div class="item-links">
+            <a href="https://github.com/chi0sk/Loom" target="_blank" rel="noreferrer">repo</a>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="item-head">
+            <h2 class="item-title">LuaXmlParser</h2>
+            <div class="item-meta">xml parser and serializer</div>
+          </div>
+          <p>
+            an xml parser, serializer, and query library for luau. very much the kind of parsing and shape-recovery work i naturally end up doing.
+          </p>
+          <div class="item-links">
+            <a href="https://github.com/chi0sk/LuaXmlParser" target="_blank" rel="noreferrer">repo</a>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="item-head">
+            <h2 class="item-title">NetReplication</h2>
+            <div class="item-meta">state replication</div>
+          </div>
+          <p>
+            server-authoritative state replication for roblox with delta compression, batching, integrity checks, and rate limiting.
+          </p>
+          <div class="item-links">
+            <a href="https://github.com/chi0sk/NetReplication" target="_blank" rel="noreferrer">repo</a>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="item-head">
+            <h2 class="item-title">EventBus</h2>
+            <div class="item-meta">pub/sub infrastructure</div>
+          </div>
+          <p>
+            pub/sub event bus for roblox with trie routing, wildcard matching, middleware, and namespaces.
+          </p>
+          <div class="item-links">
+            <a href="https://github.com/chi0sk/EventBus" target="_blank" rel="noreferrer">repo</a>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="item-head">
+            <h2 class="item-title">TaskScheduler</h2>
+            <div class="item-meta">background jobs</div>
+          </div>
+          <p>
+            background job scheduling for roblox with retries, dependency chains, priority queues, and work stealing.
+          </p>
+          <div class="item-links">
+            <a href="https://github.com/chi0sk/TaskScheduler" target="_blank" rel="noreferrer">repo</a>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="item-head">
+            <h2 class="item-title">RateLimiter / ChronicleStore / CircuitBreaker / StateMachine</h2>
+            <div class="item-meta">more systems work</div>
+          </div>
+          <p>
+            more roblox-side systems work around distributed rate limiting, datastore integrity, fault isolation, and hierarchical state management.
+          </p>
+          <div class="item-links">
+            <a href="https://github.com/chi0sk/RateLimiter" target="_blank" rel="noreferrer">RateLimiter</a>
+            <a href="https://github.com/chi0sk/ChronicleStore" target="_blank" rel="noreferrer">ChronicleStore</a>
+            <a href="https://github.com/chi0sk/CircuitBreaker" target="_blank" rel="noreferrer">CircuitBreaker</a>
+            <a href="https://github.com/chi0sk/StateMachine" target="_blank" rel="noreferrer">StateMachine</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="label">how i think</p>
+      <p class="quote">
+        if something is technically correct but still obviously ugly, noisy, or annoying to work with, i do not think it is finished.
+      </p>
+    </section>
+
+    <section class="section">
+      <p class="label">sift output</p>
+      <p>
+        this is the kind of shape i am trying to get back from bytecode now. not fake-perfect output. just something that feels much closer to real source.
+      </p>
+      <pre class="code">local activeCooldowns = {}
 local toolHandler = {}
 
 function toolHandler:getConfig(toolName)
@@ -572,21 +425,19 @@ function toolHandler:getTargets(character, config)
 
 	return targets
 end</pre>
-        </section>
+    </section>
 
-        <footer class="footer section" id="contact">
-          <p class="section-title">contact</p>
-          <p class="footer-copy">
-            if you want to talk about luau, roblox tooling, decompilers, networking, or other weird systems work, feel free to reach out.
-          </p>
-          <div class="footer-links">
-            <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
-            <a href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">roblox</a>
-            <span>discord: rituals._</span>
-          </div>
-        </footer>
+    <section class="section">
+      <p class="label">contact</p>
+      <p>
+        if you want to talk about luau, decompilers, roblox tooling, networking, or anything around that kind of work, feel free to reach out.
+      </p>
+      <div class="item-links" style="margin-top:14px;">
+        <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
+        <a href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">roblox</a>
+        <span>discord: rituals._</span>
       </div>
-    </div>
+    </section>
   </main>
 </body>
 </html>
