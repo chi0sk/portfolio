@@ -1,742 +1,623 @@
-<!-- @chi0sk / sam -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>chi0sk - roblox systems</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sam / chi0sk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: rgba(18, 24, 33, 0.82);
+      --panel-strong: rgba(12, 16, 24, 0.92);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #edf2f7;
+      --muted: #a7b3c4;
+      --soft: #7c8797;
+      --blue: #74c0fc;
+      --red: #ff7a59;
+      --gold: #f4d58d;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.38);
+      --radius: 28px;
+      --max: 1180px;
+    }
 
-  :root {
-    --bg:      #0c0c0b;
-    --surface: #111110;
-    --border:  #222220;
-    --border2: #2a2a28;
-    --ink:     #e8e4dc;
-    --muted:   #6b6860;
-    --dim:     #3d3c38;
-    --accent:  #d4854a;
-    --accent2: #b8623a;
-    --green:   #4a9e6b;
-    --mono:    'DM Mono', monospace;
-    --serif:   'Instrument Serif', serif;
-    --body:    'Lora', serif;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  html { scroll-behavior: smooth; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(116, 192, 252, 0.18), transparent 32%),
+        radial-gradient(circle at 85% 15%, rgba(255, 122, 89, 0.18), transparent 30%),
+        radial-gradient(circle at 70% 80%, rgba(244, 213, 141, 0.10), transparent 24%),
+        linear-gradient(180deg, #0a0d12 0%, #0d1117 55%, #121823 100%);
+      color: var(--text);
+      font-family: "Space Grotesk", sans-serif;
+    }
 
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--body);
-    font-size: 15px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
+    body {
+      overflow-x: hidden;
+    }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.5;
-  }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 52px;
-    transition: background 0.3s, border-color 0.3s;
-    border-bottom: 1px solid transparent;
-  }
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: radial-gradient(circle at center, black 55%, transparent 100%);
+    }
 
-  nav.scrolled {
-    background: rgba(12,12,11,0.92);
-    backdrop-filter: blur(16px);
-    border-color: var(--border);
-  }
+    .page {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+      position: relative;
+    }
 
-  .nav-logo {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-    text-decoration: none;
-  }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
 
-  .nav-logo span { color: var(--accent); }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      backdrop-filter: blur(10px);
+    }
 
-  .nav-links { display: flex; gap: 36px; list-style: none; }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--red));
+      box-shadow: 0 0 18px rgba(116, 192, 252, 0.7);
+    }
 
-  .nav-links a {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-  .nav-links a:hover { color: var(--ink); }
+    .links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      transition: 160ms ease;
+    }
 
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-bottom: 1px solid var(--border);
-  }
+    .links a:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
 
-  .hero-left {
-    padding: 160px 52px 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    border-right: 1px solid var(--border);
-  }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 22px;
+      margin-bottom: 22px;
+    }
 
-  .hero-eyebrow {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 28px;
-  }
+    .card {
+      position: relative;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
 
-  .hero-name {
-    font-family: var(--serif);
-    font-size: clamp(56px, 7.5vw, 104px);
-    font-weight: 400;
-    line-height: 0.92;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 6px;
-  }
+    .card-inner {
+      padding: 28px;
+      position: relative;
+      z-index: 1;
+    }
 
-  .hero-name-alt {
-    font-family: var(--serif);
-    font-size: clamp(26px, 3vw, 44px);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--muted);
-    margin-bottom: 52px;
-    line-height: 1;
-  }
+    .hero-copy {
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-  .hero-desc {
-    font-size: 14px;
-    color: var(--muted);
-    max-width: 420px;
-    line-height: 1.85;
-    margin-bottom: 48px;
-  }
+    .eyebrow {
+      color: var(--blue);
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 18px;
+    }
 
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border2);
-    padding-bottom: 4px;
-    transition: color 0.2s, border-color 0.2s;
-    width: fit-content;
-  }
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 7vw, 6.2rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
 
-  .hero-cta:hover { color: var(--accent); border-color: var(--accent); }
-  .hero-cta:hover .arr { transform: translateX(4px); }
-  .arr { display: inline-block; transition: transform 0.2s; }
+    h1 .serif {
+      display: block;
+      font-family: "Instrument Serif", serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: -0.03em;
+    }
 
-  .hero-right {
-    padding: 160px 52px 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
+    .lead {
+      width: min(640px, 100%);
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.7;
+    }
 
-  .hero-stat { padding: 28px 0; border-top: 1px solid var(--border); }
-  .hero-stat:last-child { border-bottom: 1px solid var(--border); }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
 
-  .stat-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
+    .mini {
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.035);
+    }
 
-  .stat-value { font-family: var(--serif); font-size: 26px; color: var(--ink); }
-  .stat-sub { font-size: 12px; color: var(--dim); margin-top: 3px; font-style: italic; }
+    .mini-label {
+      color: var(--soft);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
 
-  section { border-bottom: 1px solid var(--border); }
+    .mini strong {
+      display: block;
+      font-size: 1.04rem;
+      line-height: 1.45;
+    }
 
-  .section-header {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    align-items: baseline;
-    padding: 36px 52px 20px;
-    border-bottom: 1px solid var(--border);
-    gap: 32px;
-  }
+    .hero-side {
+      display: grid;
+      gap: 22px;
+    }
 
-  .section-num {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+    .note {
+      min-height: 198px;
+      background:
+        linear-gradient(180deg, rgba(255, 122, 89, 0.12), rgba(255, 122, 89, 0.02)),
+        var(--panel-strong);
+      transform: rotate(-1.2deg);
+    }
 
-  .section-title {
-    font-family: var(--serif);
-    font-size: clamp(26px, 3.2vw, 42px);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
+    .note h2,
+    .project h2,
+    .stack h2,
+    .footer-card h2 {
+      margin: 0 0 18px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--soft);
+    }
 
-  .about-body {
-    display: grid;
-    grid-template-columns: 180px 1fr 1fr;
-    gap: 32px;
-    padding: 52px;
-  }
+    .note p {
+      margin: 0;
+      color: var(--text);
+      font-size: 1.18rem;
+      line-height: 1.7;
+    }
 
-  .about-text p { font-size: 15px; color: var(--ink); line-height: 1.85; margin-bottom: 18px; }
-  .about-text p:last-child { margin-bottom: 0; }
+    .status-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
 
-  .about-aside { padding-left: 32px; border-left: 1px solid var(--border); }
+    .status-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
 
-  .aside-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
-    display: block;
-  }
+    .status-item span {
+      width: 9px;
+      height: 9px;
+      margin-top: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--gold));
+      flex: none;
+    }
 
-  .tag {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    padding: 5px 11px;
-    border: 1px solid var(--border2);
-    margin: 3px 3px 3px 0;
-    color: var(--muted);
-    transition: color 0.15s, border-color 0.15s;
-    cursor: default;
-  }
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-bottom: 22px;
+    }
 
-  .tag:hover { color: var(--ink); border-color: var(--dim); }
+    .project-list {
+      display: grid;
+      gap: 14px;
+    }
 
-  .project-row {
-    display: grid;
-    grid-template-columns: 180px 1fr 220px;
-    gap: 32px;
-    padding: 44px 52px;
-    border-bottom: 1px solid var(--border);
-    align-items: start;
-    transition: background 0.2s;
-    cursor: default;
-  }
+    .project-item {
+      padding: 18px 18px 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.035);
+    }
 
-  .project-row:last-child { border-bottom: none; }
-  .project-row:hover { background: var(--surface); }
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
 
-  .project-idx {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    padding-top: 5px;
-  }
+    .project-top strong {
+      font-size: 1.08rem;
+    }
 
-  .project-name {
-    font-family: var(--serif);
-    font-size: 24px;
-    font-weight: 400;
-    color: var(--ink);
-    margin-bottom: 10px;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
+    .project-top b {
+      color: var(--blue);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
-  .project-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.75;
-    margin-bottom: 20px;
-    max-width: 560px;
-  }
+    .project-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
 
-  .code-block {
-    background: #090908;
-    border: 1px solid var(--border);
-    padding: 16px 18px;
-    font-family: var(--mono);
-    font-size: 11px;
-    line-height: 1.75;
-    color: #7a7668;
-    overflow-x: auto;
-    max-width: 560px;
-  }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
 
-  .cm { color: #4a4840; font-style: italic; }
-  .kw { color: #7a9fbf; }
-  .fn { color: #c8a870; }
-  .st { color: #8fa87a; }
-  .nu { color: #b8845a; }
-  .va { color: #c0b8a8; }
+    .chip {
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
 
-  .project-meta { text-align: right; }
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
 
-  .project-badge {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid var(--accent2);
-    padding: 4px 10px;
-    margin-bottom: 12px;
-  }
+    .stack-box {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
 
-  .project-year { font-family: var(--mono); font-size: 10px; color: var(--muted); display: block; }
+    .stack-box strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
 
-  .services-grid {
-    display: grid;
-    grid-template-columns: 180px 1fr 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-  }
+    .stack-box p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
 
-  .svc-spacer { background: var(--bg); }
+    .footer-card {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
 
-  .svc-card { background: var(--bg); padding: 44px 36px; transition: background 0.2s; }
-  .svc-card:hover { background: var(--surface); }
+    .footer-copy p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 1rem;
+    }
 
-  .svc-num {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 22px;
-  }
+    .contact-box {
+      display: grid;
+      gap: 12px;
+    }
 
-  .svc-name { font-family: var(--serif); font-size: 19px; color: var(--ink); margin-bottom: 14px; line-height: 1.2; }
-  .svc-desc { font-size: 12px; color: var(--muted); line-height: 1.75; }
+    .contact-link {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      transition: 160ms ease;
+    }
 
-  .contact-body {
-    display: grid;
-    grid-template-columns: 180px 1fr 1fr;
-    gap: 32px;
-    padding: 52px;
-    align-items: start;
-  }
+    .contact-link strong {
+      color: var(--text);
+      font-size: 0.98rem;
+    }
 
-  .contact-headline {
-    font-family: var(--serif);
-    font-size: clamp(30px, 4vw, 54px);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 24px;
-    color: var(--ink);
-  }
+    .contact-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: var(--text);
+    }
 
-  .contact-headline em { font-style: italic; color: var(--muted); }
-  .contact-sub { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; }
+    .card-glow {
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(116, 192, 252, 0.22), transparent 70%);
+      filter: blur(12px);
+      pointer-events: none;
+    }
 
-  .contact-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--ink);
-    text-decoration: none;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    transition: color 0.2s;
-  }
+    .fade {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: rise 0.7s ease forwards;
+    }
 
-  .contact-link:first-of-type { border-top: 1px solid var(--border); }
-  .contact-link:hover { color: var(--accent); }
+    .fade:nth-child(2) { animation-delay: 0.08s; }
+    .fade:nth-child(3) { animation-delay: 0.16s; }
+    .fade:nth-child(4) { animation-delay: 0.24s; }
 
-  .cl-platform {
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-size: 9px;
-    color: var(--muted);
-    min-width: 80px;
-  }
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  .contact-note { padding-left: 32px; border-left: 1px solid var(--border); }
+    @media (max-width: 980px) {
+      .hero,
+      .section-grid,
+      .footer-card {
+        grid-template-columns: 1fr;
+      }
 
-  .avail {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 24px;
-  }
+      .hero-copy {
+        min-height: unset;
+      }
+    }
 
-  .dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2.2s infinite;
-  }
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 24px), var(--max));
+        padding-top: 14px;
+      }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.25; }
-  }
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-  .note-text { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 20px; }
-  .note-text strong { color: var(--ink); font-weight: 600; }
+      .hero-grid,
+      .stack-grid {
+        grid-template-columns: 1fr;
+      }
 
-  footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 52px;
-  }
+      .card-inner {
+        padding: 20px;
+      }
 
-  .footer-l, .footer-r { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
-
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
-  .d1 { transition-delay: 0.08s; }
-  .d2 { transition-delay: 0.16s; }
-  .d3 { transition-delay: 0.24s; }
-  .d4 { transition-delay: 0.32s; }
-
-  @media (max-width: 860px) {
-    nav { padding: 18px 24px; }
-    .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-left { padding: 110px 24px 48px; border-right: none; border-bottom: 1px solid var(--border); }
-    .hero-right { padding: 40px 24px 60px; }
-    .section-header { grid-template-columns: 1fr; padding: 28px 24px 16px; gap: 8px; }
-    .about-body { grid-template-columns: 1fr; padding: 32px 24px; }
-    .about-aside { padding-left: 0; padding-top: 28px; border-left: none; border-top: 1px solid var(--border); }
-    .project-row { grid-template-columns: 1fr; padding: 32px 24px; gap: 12px; }
-    .project-meta { text-align: left; }
-    .project-idx { display: none; }
-    .services-grid { grid-template-columns: 1fr; }
-    .svc-spacer { display: none; }
-    .contact-body { grid-template-columns: 1fr; padding: 32px 24px; gap: 40px; }
-    .contact-note { padding-left: 0; padding-top: 28px; border-left: none; border-top: 1px solid var(--border); }
-    footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
-  }
-</style>
+      h1 {
+        font-size: clamp(2.5rem, 16vw, 4.3rem);
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="grain"></div>
+  <main class="page">
+    <div class="topbar fade">
+      <div class="tag"><span class="dot"></span>sam / chi0sk</div>
+      <div class="links">
+        <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
+        <a href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">roblox</a>
+        <a href="https://discord.com/users/" target="_blank" rel="noreferrer">discord: rituals._</a>
+      </div>
+    </div>
 
-<nav id="nav">
-  <a class="nav-logo" href="#"><span>chi0sk</span> / humaninput</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+    <section class="hero">
+      <article class="card fade">
+        <div class="card-glow"></div>
+        <div class="card-inner hero-copy">
+          <div>
+            <div class="eyebrow">luau · c++ · roblox systems</div>
+            <h1>
+              i build
+              <span class="serif">tools that should feel sharp</span>
+            </h1>
+            <p class="lead">
+              i'm sam. i'm 16. most of what i build ends up somewhere between roblox tooling, low level game code, weird backend ideas, and side projects i probably spent too long polishing. i care a lot about things feeling fast, readable, and actually thought through.
+            </p>
+          </div>
 
-<section class="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow reveal">roblox developer / systems programmer</p>
-    <h1 class="hero-name reveal d1">chi0sk</h1>
-    <p class="hero-name-alt reveal d2">humaninput</p>
-    <p class="hero-desc reveal d3">i make luau modules and game systems for roblox. mostly networking, state, data, and the under-the-hood stuff that keeps a project from turning into a mess later.</p>
-    <a href="#work" class="hero-cta reveal d4">view work <span class="arr">&#8594;</span></a>
-  </div>
-  <div class="hero-right">
-    <div class="hero-stat reveal">
-      <p class="stat-label">main thing</p>
-      <p class="stat-value">modules + systems</p>
-      <p class="stat-sub">networking, state, persistence, tooling</p>
-    </div>
-    <div class="hero-stat reveal d1">
-      <p class="stat-label">how i work</p>
-      <p class="stat-value">built properly</p>
-      <p class="stat-sub">clear structure, clean apis, no rushed junk</p>
-    </div>
-    <div class="hero-stat reveal d2">
-      <p class="stat-label">status</p>
-      <p class="stat-value">open for work</p>
-      <p class="stat-sub">commissions, module work, and custom systems</p>
-    </div>
-  </div>
-</section>
+          <div class="hero-grid">
+            <div class="mini">
+              <div class="mini-label">right now</div>
+              <strong>sift, a luau bytecode decompiler i'm trying to push as close to source as possible</strong>
+            </div>
+            <div class="mini">
+              <div class="mini-label">i like</div>
+              <strong>clean systems, roblox internals, serialization, and fixing ugly output until it stops looking machine made</strong>
+            </div>
+            <div class="mini">
+              <div class="mini-label">goal</div>
+              <strong>ship tools that are useful enough that people would actually keep using them</strong>
+            </div>
+          </div>
+        </div>
+      </article>
 
-<section id="about">
-  <div class="section-header reveal">
-    <span class="section-num">01 / about</span>
-    <h2 class="section-title">who i am</h2>
-  </div>
-  <div class="about-body">
-    <div></div>
-    <div class="about-text reveal">
-      <p>i go by chi0sk and humaninput. most of what i like building is the stuff under everything else: serialization, networking, state sync, persistence, queues, safety checks, and the parts people usually leave until they become a problem.</p>
-      <p>i am not really interested in flashy code that falls apart later. i like systems that are easy to reason about, easy to extend, and still readable when the codebase gets bigger. that matters more to me than trying to look clever.</p>
-      <p>i do roblox commissions and i am open to other programming work too. if you need something fast and rough, i am probably not your guy. if you want it built clean and built to hold up, that is where i am useful.</p>
-    </div>
-    <div class="about-aside reveal d1">
-      <span class="aside-label">skills</span>
-      <span class="tag">luau</span>
-      <span class="tag">roblox studio</span>
-      <span class="tag">module design</span>
-      <span class="tag">networking</span>
-      <span class="tag">datastores</span>
-      <span class="tag">state sync</span>
-      <span class="tag">rate limiting</span>
-      <span class="tag">fault handling</span>
-      <span class="tag">queues</span>
-      <span class="tag">python</span>
-      <span class="tag">javascript</span>
-      <span class="tag">git</span>
+      <aside class="hero-side">
+        <article class="card note fade">
+          <div class="card-inner">
+            <h2>what i'm on</h2>
+            <p>
+              i like building the kind of stuff that sits behind the scenes and makes everything else less annoying. decompilers, networking layers, internal tools, systems code, that kind of thing.
+            </p>
+          </div>
+        </article>
 
-      <span class="aside-label" style="margin-top:32px;">how i work</span>
-      <span class="tag">clean apis</span>
-      <span class="tag">documented</span>
-      <span class="tag">tested</span>
-      <span class="tag">production-ready</span>
-    </div>
-  </div>
-</section>
+        <article class="card fade">
+          <div class="card-inner">
+            <h2>current focus</h2>
+            <div class="status-list">
+              <div class="status-item"><span></span><div>making sift recover cleaner locals, helpers, and module shapes from real roblox bytecode</div></div>
+              <div class="status-item"><span></span><div>building faster luau and c++ code without turning it into unreadable garbage</div></div>
+              <div class="status-item"><span></span><div>working on projects i would actually want to use myself instead of just posting and forgetting</div></div>
+            </div>
+          </div>
+        </article>
+      </aside>
+    </section>
 
-<section id="work">
-  <div class="section-header reveal">
-    <span class="section-num">02 / work</span>
-    <h2 class="section-title">modules</h2>
-  </div>
+    <section class="section-grid">
+      <article class="card fade">
+        <div class="card-inner project">
+          <h2>projects</h2>
+          <div class="project-list">
+            <div class="project-item">
+              <div class="project-top">
+                <strong>sift</strong>
+                <b>luau decompiler</b>
+              </div>
+              <p>
+                a roblox luau bytecode decompiler focused on getting back code that looks human again. less opcode soup, better naming, better structure, and way less of that "yeah technically it decompiled" feeling.
+              </p>
+            </div>
 
-  <div class="project-row reveal">
-    <span class="project-idx">001</span>
-    <div>
-      <h3 class="project-name">Loom</h3>
-      <p class="project-desc">A typed binary serializer for roblox with remote wrappers and higher level channels on top. It covers schemas, tracked deltas, delete support, roblox value types, and cleaner remote payloads in general. I made it because i was tired of sending loose tables everywhere and pretending that was a real long term solution.</p>
-      <div class="code-block"><span class="cm">-- state sync with typed fields</span>
-<span class="kw">local</span> <span class="va">playerState</span> = <span class="va">LoomChannels</span>.<span class="fn">state</span>(<span class="va">remotes</span>.<span class="va">PlayerState</span>, {
-  {<span class="st">"health"</span>, <span class="va">Loom</span>.<span class="va">u16</span>},
-  {<span class="st">"stamina"</span>, <span class="va">Loom</span>.<span class="va">u16</span>},
-  {<span class="st">"position"</span>, <span class="va">Loom</span>.<span class="va">vec3</span>},
-})</div>
-    </div>
-    <div class="project-meta">
-      <span class="project-badge">roblox module</span>
-      <span class="project-year">2026</span>
-    </div>
-  </div>
+            <div class="project-item">
+              <div class="project-top">
+                <strong>loom</strong>
+                <b>networking</b>
+              </div>
+              <p>
+                typed roblox serialization and remote wrappers. i like this kind of project because it lives right in the middle of performance, structure, and not making the api feel miserable.
+              </p>
+            </div>
 
-  <div class="project-row reveal">
-    <span class="project-idx">002</span>
-    <div>
-      <h3 class="project-name">NetReplication</h3>
-      <p class="project-desc">Server-owned state replication built around replicas. Clients subscribe, get batched updates, and recover automatically if they miss something or detect bad data. Delta compression, integrity checks, and refresh logic are all built in. It came from getting sick of rewriting the same sync layer over and over.</p>
-      <div class="code-block"><span class="cm">-- server updates a value, clients get the change</span>
-<span class="va">replica</span>:<span class="fn">Set</span>({ <span class="st">"coins"</span> }, <span class="nu">500</span>)
-<span class="fn">print</span>(<span class="va">replica</span>:<span class="fn">Get</span>({ <span class="st">"coins"</span> }))</div>
-    </div>
-    <div class="project-meta">
-      <span class="project-badge">roblox module</span>
-      <span class="project-year">2025</span>
-    </div>
-  </div>
+            <div class="project-item">
+              <div class="project-top">
+                <strong>private systems work</strong>
+                <b>ongoing</b>
+              </div>
+              <p>
+                a lot of the stuff i enjoy most never turns into a polished public repo. it is usually internal game systems, backend ideas, exploit-side tooling, or random experiments that teach me something useful.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
 
-  <div class="project-row reveal">
-    <span class="project-idx">003</span>
-    <div>
-      <h3 class="project-name">ChronicleStore</h3>
-      <p class="project-desc">A datastore wrapper built around session ownership and stale write protection. It grabs a lease before touching a record, rejects old writes, retries sanely, and keeps the ugly parts of `UpdateAsync` in one place instead of leaking all over the project.</p>
-      <div class="code-block"><span class="kw">local</span> <span class="va">profile</span> = <span class="va">Store</span>:<span class="fn">StartSessionAsync</span>(<span class="st">"player_123"</span>)
-<span class="va">profile</span>.<span class="va">Data</span>.<span class="va">coins</span> = <span class="va">profile</span>.<span class="va">Data</span>.<span class="va">coins</span> + <span class="nu">100</span>
-<span class="va">profile</span>:<span class="fn">Save</span>()</div>
-    </div>
-    <div class="project-meta">
-      <span class="project-badge">roblox module</span>
-      <span class="project-year">2025</span>
-    </div>
-  </div>
+      <article class="card fade">
+        <div class="card-inner stack">
+          <h2>how i work</h2>
+          <div class="stack-grid">
+            <div class="stack-box">
+              <strong>luau first</strong>
+              <p>most of my day to day work lives around roblox, game systems, tooling, and writing code that still feels good to read later.</p>
+            </div>
+            <div class="stack-box">
+              <strong>c++ when it gets deeper</strong>
+              <p>i like lower level work too, especially when i need more control or just want to understand the ugly parts better.</p>
+            </div>
+            <div class="stack-box">
+              <strong>fast over flashy</strong>
+              <p>i care more about sharp output and clean structure than shipping something bloated just because it looks impressive at first glance.</p>
+            </div>
+            <div class="stack-box">
+              <strong>honest builds</strong>
+              <p>if something is still rough, i would rather say that and keep improving it than dress it up and pretend it is finished.</p>
+            </div>
+          </div>
+          <div class="chips">
+            <div class="chip">luau</div>
+            <div class="chip">c++</div>
+            <div class="chip">roblox studio</div>
+            <div class="chip">binary formats</div>
+            <div class="chip">tooling</div>
+            <div class="chip">systems</div>
+          </div>
+        </div>
+      </article>
+    </section>
 
-  <div class="project-row reveal">
-    <span class="project-idx">004</span>
-    <div>
-      <h3 class="project-name">TaskScheduler</h3>
-      <p class="project-desc">A distributed task queue for roblox servers. You can submit work with retries and priorities, register handlers, and let workers pull from the queue. good for jobs you do not want blocking gameplay code or depending on one server staying alive forever.</p>
-      <div class="code-block"><span class="va">scheduler</span>:<span class="fn">SubmitTask</span>({
-  <span class="va">Name</span> = <span class="st">"SendReward"</span>,
-  <span class="va">Payload</span> = { <span class="va">userId</span> = <span class="nu">123</span> }
-})</div>
-    </div>
-    <div class="project-meta">
-      <span class="project-badge">roblox module</span>
-      <span class="project-year">2025</span>
-    </div>
-  </div>
-
-  <div class="project-row reveal">
-    <span class="project-idx">005</span>
-    <div>
-      <h3 class="project-name">RateLimiter</h3>
-      <p class="project-desc">A limiter module with sliding window, token bucket, fixed window, and leaky bucket modes. I made it for the usual roblox problem of wanting decent protection without writing a different remote spam check every time. strict when it needs to be, still readable when you come back to it later.</p>
-      <div class="code-block"><span class="kw">local</span> <span class="va">result</span> = <span class="va">limiter</span>:<span class="fn">Check</span>(<span class="va">player</span>.<span class="va">UserId</span>, <span class="st">"purchase"</span>)
-<span class="kw">if not</span> <span class="va">result</span>.<span class="va">Allowed</span> <span class="kw">then</span>
-  <span class="kw">return</span> <span class="st">"slow down"</span>
-<span class="kw">end</span></div>
-    </div>
-    <div class="project-meta">
-      <span class="project-badge">roblox module</span>
-      <span class="project-year">2025</span>
-    </div>
-  </div>
-
-  <div class="project-row reveal">
-    <span class="project-idx">006</span>
-    <div>
-      <h3 class="project-name">StateMachine</h3>
-      <p class="project-desc">A hierarchical state machine for game flow, npc logic, combat states, and other mode-heavy systems. Nested states, timed transitions, guards, and restore support are all there. it is mostly for when random flags and booleans stop being enough and the whole system starts stepping on itself.</p>
-      <div class="code-block"><span class="va">machine</span>:<span class="fn">Send</span>(<span class="st">"AGGRO"</span>)
-<span class="fn">print</span>(<span class="va">machine</span>:<span class="fn">GetState</span>())
-
-<span class="va">machine</span>:<span class="fn">Send</span>(<span class="st">"KILLED"</span>)</div>
-    </div>
-    <div class="project-meta">
-      <span class="project-badge">roblox module</span>
-      <span class="project-year">2025</span>
-    </div>
-  </div>
-
-  <div class="project-row reveal">
-    <span class="project-idx">007</span>
-    <div>
-      <h3 class="project-name">CircuitBreaker</h3>
-      <p class="project-desc">A circuit breaker wrapper for flaky operations. If something keeps failing, it stops hammering it, waits, probes recovery, and then closes again when it is safe. good around datastore calls, http calls, or anything else that likes dying at the worst time.</p>
-      <div class="code-block"><span class="kw">local</span> <span class="va">result</span> = <span class="va">cb</span>:<span class="fn">Execute</span>(<span class="st">"leaderboard"</span>, <span class="kw">function</span>()
-  <span class="kw">return</span> <span class="va">DataStore</span>:<span class="fn">GetAsync</span>(<span class="st">"top10"</span>)
-<span class="kw">end</span>)</div>
-    </div>
-    <div class="project-meta">
-      <span class="project-badge">roblox module</span>
-      <span class="project-year">2025</span>
-    </div>
-  </div>
-</section>
-
-<section id="services">
-  <div class="section-header reveal">
-    <span class="section-num">03 / services</span>
-    <h2 class="section-title">what i do</h2>
-  </div>
-  <div class="services-grid">
-    <div class="svc-spacer"></div>
-    <div class="svc-card reveal">
-      <p class="svc-num">s - 01</p>
-      <h3 class="svc-name">custom modules</h3>
-      <p class="svc-desc">luau modules built for your project instead of throwaway code. clean api design, solid structure, and proper docs if you need them.</p>
-    </div>
-    <div class="svc-card reveal d1">
-      <p class="svc-num">s - 02</p>
-      <h3 class="svc-name">game systems</h3>
-      <p class="svc-desc">networking, persistence, combat flow, progression, queueing, backend-style systems, and the glue that makes separate features behave like one project.</p>
-    </div>
-    <div class="svc-card reveal d2">
-      <p class="svc-num">s - 03</p>
-      <h3 class="svc-name">code review</h3>
-      <p class="svc-desc">if your codebase is slow, fragile, or just annoying to work in, i can go through it properly and tell you what is wrong and what should be fixed first.</p>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="section-header reveal">
-    <span class="section-num">04 / contact</span>
-    <h2 class="section-title">get in touch</h2>
-  </div>
-  <div class="contact-body">
-    <div></div>
-    <div class="reveal">
-      <h3 class="contact-headline">got a system you need <em>built properly?</em></h3>
-      <p class="contact-sub">open to commissions, module work, and collaboration. discord is the easiest place to reach me if you want to talk.</p>
-      <a href="https://discord.com/users/rituals._" target="_blank" class="contact-link">
-        <span class="cl-platform">discord</span>
-        <span>rituals._</span>
-        <span>&#8594;</span>
-      </a>
-      <a href="https://www.roblox.com/users/search?keyword=chi0sk" target="_blank" class="contact-link">
-        <span class="cl-platform">roblox</span>
-        <span>chi0sk</span>
-        <span>&#8594;</span>
-      </a>
-      <a href="https://github.com/chi0sk" target="_blank" class="contact-link">
-        <span class="cl-platform">github</span>
-        <span>chi0sk</span>
-        <span>&#8594;</span>
-      </a>
-    </div>
-    <div class="contact-note reveal d1">
-      <p class="avail"><span class="dot"></span> available for work</p>
-      <p class="note-text">roblox work can be paid in <strong>robux</strong>. for anything else, just message me and we can sort it out there.</p>
-      <p class="note-text">i would rather take on less work and do it properly than stack a bunch of rushed jobs. if it is worth making, it should be built right.</p>
-    </div>
-  </div>
-</section>
-
-<footer class="reveal">
-  <span class="footer-l">chi0sk / humaninput</span>
-  <span class="footer-r">england / 2026</span>
-</footer>
-
-<script>
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
-
-  reveals.forEach(el => obs.observe(el));
-  setTimeout(() => {
-    document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
-  }, 80);
-</script>
-
+    <section class="card fade">
+      <div class="card-inner footer-card">
+        <div class="footer-copy">
+          <h2>about me</h2>
+          <p>
+            i'm still early, but i take the work seriously. i like getting obsessive about one problem and pulling it apart until it feels right. if a tool is supposed to save people time, then it should actually do that, not just look cool in a screenshot.
+          </p>
+        </div>
+        <div class="contact-box">
+          <a class="contact-link" href="https://github.com/chi0sk" target="_blank" rel="noreferrer">
+            <strong>github</strong>
+            <span>@chi0sk</span>
+          </a>
+          <a class="contact-link" href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">
+            <strong>roblox</strong>
+            <span>chi0sk</span>
+          </a>
+          <a class="contact-link" href="https://discord.com/users/" target="_blank" rel="noreferrer">
+            <strong>discord</strong>
+            <span>rituals._</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
