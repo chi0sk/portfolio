@@ -6,13 +6,17 @@
   <title>sam / chi0sk</title>
   <style>
     :root {
-      --bg: #f7f4ee;
-      --panel: #fcfaf6;
-      --text: #171717;
-      --muted: #63615d;
-      --line: rgba(23, 23, 23, 0.12);
-      --accent: #0f4c81;
-      --max: 1120px;
+      --bg: #090909;
+      --bg-soft: #111111;
+      --panel: #141414;
+      --panel-2: #191919;
+      --text: #f3efe6;
+      --muted: #aaa397;
+      --line: rgba(243, 239, 230, 0.1);
+      --accent: #d76a4a;
+      --accent-soft: rgba(215, 106, 74, 0.18);
+      --max: 1180px;
+      --radius: 20px;
     }
 
     * {
@@ -25,9 +29,11 @@
 
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(215, 106, 74, 0.1), transparent 26%),
+        linear-gradient(180deg, #0b0b0b 0%, #090909 100%);
       color: var(--text);
-      font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       text-rendering: optimizeLegibility;
     }
 
@@ -36,61 +42,82 @@
       text-decoration: none;
     }
 
-    .wrap {
-      width: min(calc(100% - 40px), var(--max));
+    .page {
+      width: min(calc(100% - 36px), var(--max));
       margin: 0 auto;
-      padding: 32px 0 72px;
+      padding: 28px 0 72px;
     }
 
-    .layout {
+    .shell {
       display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-      gap: 72px;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 42px;
     }
 
     .rail {
       position: sticky;
-      top: 28px;
+      top: 24px;
       align-self: start;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+      backdrop-filter: blur(10px);
     }
 
     .name {
       margin: 0;
-      font-size: 2rem;
-      font-weight: 600;
-      line-height: 1;
-      letter-spacing: -0.03em;
+      font-size: 2.2rem;
+      line-height: 0.95;
+      font-weight: 700;
+      letter-spacing: -0.05em;
     }
 
     .handle {
-      margin: 10px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
       font-size: 1rem;
       line-height: 1.6;
     }
 
-    .mini {
-      margin: 26px 0 0;
+    .rail-copy {
+      margin: 22px 0 0;
       padding-top: 18px;
       border-top: 1px solid var(--line);
       color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.8;
+      font-size: 0.96rem;
+      line-height: 1.85;
     }
 
-    .nav {
-      margin-top: 28px;
+    .rail-block {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .rail-label {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .rail-list {
       display: grid;
-      gap: 12px;
+      gap: 10px;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 0.92rem;
     }
 
-    .nav a {
+    .rail-list a,
+    .rail-list span {
       color: var(--muted);
     }
 
-    .nav a:hover {
+    .rail-list a:hover {
       color: var(--text);
     }
 
@@ -98,176 +125,211 @@
       min-width: 0;
     }
 
-    .intro {
-      padding: 8px 0 42px;
+    .hero,
+    .section {
+      padding: 28px 0 34px;
       border-bottom: 1px solid var(--line);
     }
 
     .eyebrow {
       margin: 0 0 18px;
-      color: var(--muted);
+      color: var(--accent);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.9rem;
-      line-height: 1.6;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
     h1 {
       margin: 0;
-      max-width: 900px;
-      font-size: clamp(2.9rem, 7vw, 5.6rem);
-      line-height: 0.94;
-      font-weight: 600;
-      letter-spacing: -0.05em;
+      max-width: 920px;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 0.93;
+      font-weight: 800;
+      letter-spacing: -0.06em;
     }
 
-    .lead {
-      max-width: 760px;
-      margin: 28px 0 0;
-      font-size: 1.22rem;
-      line-height: 1.9;
-      color: #2a2927;
+    .hero-copy {
+      max-width: 780px;
+      margin-top: 28px;
+      color: var(--text);
+      font-size: 1.14rem;
+      line-height: 1.95;
     }
 
-    .lead + .lead {
-      margin-top: 18px;
+    .hero-copy p {
+      margin: 0;
     }
 
-    .section {
-      padding: 34px 0 38px;
-      border-bottom: 1px solid var(--line);
+    .hero-copy p + p {
+      margin-top: 16px;
+      color: var(--muted);
     }
 
     .section-title {
-      margin: 0 0 20px;
+      margin: 0 0 18px;
       color: var(--muted);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.88rem;
-      line-height: 1.6;
-      letter-spacing: 0.04em;
+      font-size: 0.84rem;
+      line-height: 1.7;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .section p {
-      max-width: 760px;
-      margin: 0;
-      color: #2a2927;
-      font-size: 1.08rem;
-      line-height: 1.92;
-    }
-
-    .section p + p {
-      margin-top: 16px;
+    .section-copy {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.9;
     }
 
     .project-list {
       display: grid;
-      gap: 26px;
+      gap: 16px;
     }
 
     .project {
       display: grid;
-      grid-template-columns: 86px minmax(0, 1fr);
-      gap: 22px;
+      gap: 12px;
+      padding: 20px 22px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01));
     }
 
-    .project-year {
-      color: var(--muted);
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.9rem;
-      line-height: 1.8;
-      padding-top: 4px;
+    .project-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
     }
 
-    .project h2 {
+    .project-title {
       margin: 0;
-      font-size: 1.85rem;
+      font-size: 1.55rem;
       line-height: 1.05;
-      font-weight: 600;
-      letter-spacing: -0.03em;
+      font-weight: 700;
+      letter-spacing: -0.04em;
     }
 
-    .project .meta {
-      margin: 8px 0 12px;
+    .project-kind {
       color: var(--muted);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.88rem;
-      line-height: 1.7;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .project p {
       margin: 0;
-      max-width: 760px;
-      color: #2a2927;
-      font-size: 1.04rem;
-      line-height: 1.9;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.88;
     }
 
-    .notes {
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.025);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.82rem;
+      line-height: 1;
+    }
+
+    .pill:hover {
+      border-color: rgba(243, 239, 230, 0.22);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .grid {
       display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .note {
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--line);
+    .mini-card {
+      padding: 16px 18px 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--bg-soft);
     }
 
-    .note:last-child {
-      padding-bottom: 0;
-      border-bottom: 0;
-    }
-
-    .note-title {
-      margin: 0 0 6px;
-      font-size: 1.18rem;
-      line-height: 1.4;
-      font-weight: 600;
-    }
-
-    .note p {
+    .mini-card h3 {
       margin: 0;
-      font-size: 1rem;
-      line-height: 1.85;
+      font-size: 1.08rem;
+      line-height: 1.3;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+
+    .mini-card p {
+      margin: 8px 0 0;
       color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.75;
+    }
+
+    .quote {
+      max-width: 780px;
+      padding: 22px 24px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+      font-size: 1.06rem;
+      line-height: 1.9;
     }
 
     .code {
       margin-top: 18px;
       padding: 22px 24px;
-      background: #111111;
-      color: #f1eee7;
-      border: 1px solid rgba(0, 0, 0, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 18px;
+      background: #060606;
+      color: #f3efe6;
       overflow-x: auto;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 0.88rem;
-      line-height: 1.85;
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 0.98rem;
-      line-height: 1.8;
-    }
-
-    .accent {
-      color: var(--accent);
+      line-height: 1.84;
     }
 
     .footer {
       padding-top: 28px;
     }
 
+    .footer-copy {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
     .footer-links {
-      margin-top: 16px;
+      margin-top: 18px;
       display: flex;
       flex-wrap: wrap;
-      gap: 18px;
+      gap: 16px;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 0.92rem;
     }
 
-    .footer-links a {
+    .footer-links a,
+    .footer-links span {
       color: var(--muted);
     }
 
@@ -275,10 +337,9 @@
       color: var(--text);
     }
 
-    @media (max-width: 940px) {
-      .layout {
+    @media (max-width: 980px) {
+      .shell {
         grid-template-columns: 1fr;
-        gap: 40px;
       }
 
       .rail {
@@ -286,125 +347,183 @@
       }
     }
 
-    @media (max-width: 680px) {
-      .wrap {
-        width: min(calc(100% - 26px), var(--max));
-        padding-top: 20px;
+    @media (max-width: 760px) {
+      .page {
+        width: min(calc(100% - 24px), var(--max));
+        padding-top: 16px;
       }
 
-      .project {
+      .grid {
         grid-template-columns: 1fr;
-        gap: 10px;
+      }
+
+      .project-head {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       h1 {
-        font-size: clamp(2.5rem, 14vw, 4rem);
+        font-size: clamp(2.6rem, 14vw, 4.3rem);
       }
 
-      .lead {
-        font-size: 1.08rem;
-        line-height: 1.82;
+      .hero-copy {
+        font-size: 1.04rem;
       }
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <div class="layout">
+  <main class="page">
+    <div class="shell">
       <aside class="rail">
         <p class="name">sam</p>
         <p class="handle">@chi0sk</p>
-        <p class="mini">
-          16. i write luau and c++. most of what i build sits somewhere between roblox tooling, low level cleanup, and internal systems work.
+        <p class="rail-copy">
+          16. i write luau and c++. most of my work lands somewhere around roblox internals, tooling, systems code, and cleanup-heavy projects.
         </p>
-        <nav class="nav">
-          <a href="#work">work</a>
-          <a href="#notes">notes</a>
-          <a href="#sift">sift</a>
-          <a href="#contact">contact</a>
-          <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
-          <a href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">roblox</a>
-        </nav>
+
+        <div class="rail-block">
+          <p class="rail-label">links</p>
+          <div class="rail-list">
+            <a href="#work">work</a>
+            <a href="#libraries">libraries</a>
+            <a href="#sift">sift</a>
+            <a href="#contact">contact</a>
+            <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
+            <a href="https://www.roblox.com/users/profile?username=chi0sk" target="_blank" rel="noreferrer">roblox</a>
+            <span>discord: rituals._</span>
+          </div>
+        </div>
+
+        <div class="rail-block">
+          <p class="rail-label">into</p>
+          <div class="rail-list">
+            <span>70s to 90s music</span>
+            <span>old interfaces</span>
+            <span>quiet tools</span>
+            <span>parsers and recovery work</span>
+          </div>
+        </div>
       </aside>
 
       <div class="main">
-        <section class="intro">
-          <p class="eyebrow">luau, c++, bytecode, networking, roblox systems</p>
-          <h1>i build luau and c++ tooling, mostly around roblox internals.</h1>
-          <p class="lead">
-            i'm sam. i'm 16, and most of what i build is low level or tool-heavy. decompilers, serializers, recovery passes, networking layers, and internal code that makes the rest of a project easier to work on.
-          </p>
-          <p class="lead">
-            i care a lot about structure, naming, and cleanup. if something is supposed to help people, i want it to be useful after the first demo too, not just flashy for five minutes.
-          </p>
+        <section class="hero">
+          <p class="eyebrow">luau / c++ / roblox systems / bytecode</p>
+          <h1>i build tools and systems that are supposed to hold up after the first cool screenshot.</h1>
+          <div class="hero-copy">
+            <p>
+              i'm sam. i like low level work, cleanup work, and projects where the details actually matter. most of what i build is infrastructure, recovery tooling, serialization, or internal code that makes the rest of a project less annoying to work on.
+            </p>
+            <p>
+              i care a lot about naming, structure, and whether something still feels solid once somebody actually uses it. that applies to code, interfaces, and pretty much every project i end up sticking with.
+            </p>
+          </div>
         </section>
 
         <section class="section" id="work">
           <p class="section-title">selected work</p>
           <div class="project-list">
             <article class="project">
-              <div class="project-year">2026</div>
-              <div>
-                <h2>sift</h2>
-                <div class="meta">roblox luau bytecode decompiler</div>
-                <p>
-                  sift is a luau bytecode decompiler focused on getting back code that actually looks written, not just technically decompiled. most of the work goes into naming, structure recovery, control flow cleanup, helper recovery, and cutting down the machine-looking parts of the output.
-                </p>
+              <div class="project-head">
+                <h2 class="project-title">sift</h2>
+                <div class="project-kind">private paid tool</div>
+              </div>
+              <p>
+                sift is a roblox luau bytecode decompiler i am pushing as far toward source-shaped output as i can. the goal is not just valid decompilation. it is better locals, cleaner helper recovery, stronger control flow reconstruction, and output that actually feels like something a person wrote.
+              </p>
+              <div class="project-links">
+                <span class="pill">luau</span>
+                <span class="pill">bytecode</span>
+                <span class="pill">recovery passes</span>
+                <span class="pill">not open source</span>
               </div>
             </article>
 
             <article class="project">
-              <div class="project-year">2026</div>
-              <div>
-                <h2>loom</h2>
-                <div class="meta">typed roblox networking and serialization</div>
-                <p>
-                  loom is infrastructure work, which is probably my favorite kind. it sits underneath the rest of a game and makes the higher level code cleaner if it is done right. if it is done badly, you feel it everywhere.
-                </p>
+              <div class="project-head">
+                <h2 class="project-title">Loom</h2>
+                <div class="project-kind">public repo</div>
+              </div>
+              <p>
+                typed binary serialization for roblox, with direct remote wrappers and higher level channels for events, requests, and state sync. this is the kind of foundation work i like most because good infrastructure changes how clean the rest of a codebase feels.
+              </p>
+              <div class="project-links">
+                <a class="pill" href="https://github.com/chi0sk/Loom" target="_blank" rel="noreferrer">repo</a>
               </div>
             </article>
 
             <article class="project">
-              <div class="project-year">ongoing</div>
-              <div>
-                <h2>private tools</h2>
-                <div class="meta">internals, utilities, and project glue</div>
-                <p>
-                  a lot of what i spend time on never ends up public. usually it is support code, internal utilities, recovery tools, or experiments that got more serious than i expected.
-                </p>
+              <div class="project-head">
+                <h2 class="project-title">LuaXmlParser</h2>
+                <div class="project-kind">public repo</div>
+              </div>
+              <p>
+                an xml parser, serializer, and query library for luau. it is a good example of the kind of work i naturally drift toward: parsing, shape recovery, and making awkward data easier to work with.
+              </p>
+              <div class="project-links">
+                <a class="pill" href="https://github.com/chi0sk/LuaXmlParser" target="_blank" rel="noreferrer">repo</a>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project-head">
+                <h2 class="project-title">NetReplication</h2>
+                <div class="project-kind">public repo</div>
+              </div>
+              <p>
+                server-authoritative state replication for roblox with delta compression, integrity checks, batching, and rate limiting. it is very much in the category of systems that need both good design and boring reliability.
+              </p>
+              <div class="project-links">
+                <a class="pill" href="https://github.com/chi0sk/NetReplication" target="_blank" rel="noreferrer">repo</a>
               </div>
             </article>
           </div>
         </section>
 
-        <section class="section" id="notes">
-          <p class="section-title">how i work</p>
-          <div class="notes">
-            <div class="note">
-              <p class="note-title">i like cleanup work</p>
-              <p>
-                naming, structure, edge cases, deleting bad abstractions, making something feel less noisy after the main idea already exists. that part of engineering matters way more than people act like it does.
-              </p>
-            </div>
-            <div class="note">
-              <p class="note-title">i do not like fake polish</p>
-              <p>
-                if something looks polished until you actually use it, i do not think that is good work. i would rather make it simpler and stronger.
-              </p>
-            </div>
-            <div class="note">
-              <p class="note-title">i lean technical</p>
-              <p>
-                most of the problems i enjoy are the ones with structure in them. parsers, bytecode, networking, tooling, low level behavior, and all the small choices that decide whether the result feels sloppy or solid.
-              </p>
-            </div>
+        <section class="section" id="libraries">
+          <p class="section-title">more libraries</p>
+          <p class="section-copy">
+            a lot of my public work is roblox-side systems code. these are a few of the other repos that fit that lane.
+          </p>
+          <div class="grid">
+            <a class="mini-card" href="https://github.com/chi0sk/EventBus" target="_blank" rel="noreferrer">
+              <h3>EventBus</h3>
+              <p>pub/sub event bus for roblox with trie routing, wildcard matching, middleware, and namespaces.</p>
+            </a>
+            <a class="mini-card" href="https://github.com/chi0sk/TaskScheduler" target="_blank" rel="noreferrer">
+              <h3>TaskScheduler</h3>
+              <p>background job scheduling for roblox with retries, dependency chains, and work stealing.</p>
+            </a>
+            <a class="mini-card" href="https://github.com/chi0sk/RateLimiter" target="_blank" rel="noreferrer">
+              <h3>RateLimiter</h3>
+              <p>distributed rate limiting for roblox with multiple algorithms and cross-server accounting.</p>
+            </a>
+            <a class="mini-card" href="https://github.com/chi0sk/ChronicleStore" target="_blank" rel="noreferrer">
+              <h3>ChronicleStore</h3>
+              <p>datastore wrapper with lease-based session locking, integrity checks, and write coalescing.</p>
+            </a>
+            <a class="mini-card" href="https://github.com/chi0sk/CircuitBreaker" target="_blank" rel="noreferrer">
+              <h3>CircuitBreaker</h3>
+              <p>per-resource fault isolation for roblox with a three-state circuit automaton and windowed failure tracking.</p>
+            </a>
+            <a class="mini-card" href="https://github.com/chi0sk/StateMachine" target="_blank" rel="noreferrer">
+              <h3>StateMachine</h3>
+              <p>hierarchical state machine for roblox with nested states, guards, timeout transitions, and snapshot restore.</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="section">
+          <p class="section-title">how i think</p>
+          <div class="quote">
+            i do not really care if something looks polished for five minutes. i care if it still feels solid after somebody reads the code, hits the edge cases, and comes back to it later.
           </div>
         </section>
 
         <section class="section" id="sift">
           <p class="section-title">current slice of sift</p>
-          <p>
-            this is the kind of output i am aiming for right now. not fake perfect, not over-smoothed, just close enough to the original shape that it reads like source again.
+          <p class="section-copy">
+            this is the kind of output i am trying to get back from bytecode now. not flat decompiler sludge, not fake cleaned, just something much closer to real source.
           </p>
           <pre class="code">local activeCooldowns = {}
 local toolHandler = {}
@@ -453,21 +572,12 @@ function toolHandler:getTargets(character, config)
 
 	return targets
 end</pre>
-          <p class="small">
-            that is the difference i care about. not just getting code back, but getting something back that still has a human shape to it.
-          </p>
         </section>
 
-        <section class="section">
-          <p class="section-title">outside of repos</p>
-          <p>
-            outside of the actual code, i like good typography, old interfaces, quiet tools, and projects that feel considered all the way through. i usually end up caring just as much about the shape of something as the technical part.
-          </p>
-        </section>
-
-        <footer class="footer" id="contact">
-          <p>
-            if you want to talk about luau, roblox tooling, decompilers, or anything in that area, feel free to reach out.
+        <footer class="footer section" id="contact">
+          <p class="section-title">contact</p>
+          <p class="footer-copy">
+            if you want to talk about luau, roblox tooling, decompilers, networking, or other weird systems work, feel free to reach out.
           </p>
           <div class="footer-links">
             <a href="https://github.com/chi0sk" target="_blank" rel="noreferrer">github</a>
